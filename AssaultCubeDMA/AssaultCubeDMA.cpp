@@ -25,11 +25,13 @@ int main()
 
     std::cout << std::hex << LocalPlayerPtr << std::endl;
 
-    size_t health = 42;
+    size_t health = 3333333;
+    size_t ammo = 42;
 
     while (1)
     {
         TargetProcess.Write(LocalPlayerPtr + 0xEC, &health, sizeof(health));
+        TargetProcess.Write(LocalPlayerPtr + 0x140, &ammo, sizeof(ammo));
 
     }
 }
