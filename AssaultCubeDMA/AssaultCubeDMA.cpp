@@ -18,4 +18,18 @@ int main()
     }
 
     std::cout << std::hex << ModuleBaseAddress << std::endl;
+
+    size_t LocalPlayerPtr;
+
+    TargetProcess.Read(ModuleBaseAddress + 0x17E0A8, &LocalPlayerPtr, sizeof(LocalPlayerPtr));
+
+    std::cout << std::hex << LocalPlayerPtr << std::endl;
+
+    size_t health = 42;
+
+    while (1)
+    {
+        TargetProcess.Write(LocalPlayerPtr + 0xEC, &health, sizeof(health));
+
+    }
 }
