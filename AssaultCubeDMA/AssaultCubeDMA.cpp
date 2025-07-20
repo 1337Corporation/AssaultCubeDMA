@@ -1,6 +1,7 @@
 #include "Memory.h"
 #include "AssaultCubeDMA.hpp"
 #include <iostream>
+#include <thread>
 
 int main()
 {
@@ -29,6 +30,12 @@ int main()
     size_t ammo = 42;
 
     float cameraX;
+    float cameraY;
+
+    // Print initial values
+    TargetProcess.Read(LocalPlayerPtr + Offsets::PlayerCameraX, &cameraX, sizeof(cameraX));
+    TargetProcess.Read(LocalPlayerPtr + Offsets::PlayerCameraY, &cameraY, sizeof(cameraY));
+    std::cout << "Player CameraX -> " << cameraX << " | Player CameraY -> " << cameraY << std::flush;
 
     while (1)
     {
@@ -37,7 +44,7 @@ int main()
         TargetProcess.Write(LocalPlayerPtr + Offsets::Pistol, &ammo, sizeof(ammo));
 
         TargetProcess.Read(LocalPlayerPtr + Offsets::PlayerCameraX, &cameraX, sizeof(cameraX));
-
-        std::cout << "\rPlayer CameraX -> " << cameraX << std::flush;
+        TargetProcess.Read(LocalPlayerPtr + Offsets::PlayerCameraY, &cameraY, sizeof(cameraY));
+        std::cout << "\rPlayer CameraX -> " << cameraX << " | Player CameraY -> " << cameraY << std::flush;
     }
 }
