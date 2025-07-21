@@ -8,6 +8,7 @@ int main()
     if(!TargetProcess.Init(PROCESS_NAME))
     {
         std::cout << "Failed to initialize process" << std::endl;
+        while (1) {}
     }
 
     size_t ModuleBaseAddress;
@@ -16,6 +17,7 @@ int main()
     if (!ModuleBaseAddress)
     {
         std::cout << "Failed to retrieve BaseAddress" << std::endl;
+        while (1) {}
     }
 
     std::cout << std::hex << ModuleBaseAddress << std::endl;
