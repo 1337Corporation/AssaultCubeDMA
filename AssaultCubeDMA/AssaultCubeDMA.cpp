@@ -42,9 +42,10 @@ int main()
 
     while (1)
     {
-        TargetProcess.Write(LocalPlayerPtr + Offsets::Health, &health, sizeof(health));
-        TargetProcess.Write(LocalPlayerPtr + Offsets::MachineGun, &ammo, sizeof(ammo));
-        TargetProcess.Write(LocalPlayerPtr + Offsets::Pistol, &ammo, sizeof(ammo));
+        // Infinite Ammo & Health ;)
+        TargetProcess.Write(LocalPlayerPtr + Offsets::LocalPlayer::Health, &health, sizeof(health));
+        TargetProcess.Write(LocalPlayerPtr + Offsets::Guns::PistolAmmo, &ammo, sizeof(ammo));
+        TargetProcess.Write(LocalPlayerPtr + Offsets::Guns::MachineGunAmmo, &ammo, sizeof(ammo));
 
         TargetProcess.Read(LocalPlayerPtr + Offsets::PlayerCameraX, &cameraX, sizeof(cameraX));
         TargetProcess.Read(LocalPlayerPtr + Offsets::PlayerCameraY, &cameraY, sizeof(cameraY));
