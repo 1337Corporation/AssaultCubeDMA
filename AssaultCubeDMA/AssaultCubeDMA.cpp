@@ -34,10 +34,11 @@ int main()
     float cameraX;
     float cameraY;
 
-    // Print initial values
-    TargetProcess.Read(LocalPlayerPtr + Offsets::PlayerCameraX, &cameraX, sizeof(cameraX));
-    TargetProcess.Read(LocalPlayerPtr + Offsets::PlayerCameraY, &cameraY, sizeof(cameraY));
-    std::cout << "Player CameraX -> " << cameraX << " | Player CameraY -> " << cameraY << std::flush;
+    float positionX;
+    float positionY;
+    float positionZ;
+
+    system("cls");
 
     while (1)
     {
