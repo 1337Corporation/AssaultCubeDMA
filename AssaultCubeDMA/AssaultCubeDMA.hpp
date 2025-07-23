@@ -13,8 +13,8 @@ namespace Offsets
 		constexpr size_t PlayerCameraX					= 0x34;
 		constexpr size_t PlayerCameraY					= 0x38;
 
-		constexpr size_t PlayerPosX						= 0xFF;
-		constexpr size_t PlayerPosY						= 0xFF;
+		constexpr size_t PlayerPosX						= 0x2C;
+		constexpr size_t PlayerPosY						= 0x28;
 		constexpr size_t PlayerPosZ						= 0x30;
 	}
 
