@@ -1,0 +1,14 @@
+// Manual reverse of Assault Cube 7/24/2025
+
+#include "Vectors.hpp"
+
+// LOCAL_PLAYER		= 0x0058AC00
+// NUMBER_PLAYERS	= 0x0058AC0C
+// PLAYER_LIST		= 0x0058AC04
+
+size_t 	Health			= 0xEC;
+size_t	Armour			= 0xF0;
+Vec3	Position		= { 0x4, 0x8, 0x12 };
+char	Name[16]		= 0x205;
+size_t	Frags			= 0x1DC
+size_t	Deaths			= 0x1E4
