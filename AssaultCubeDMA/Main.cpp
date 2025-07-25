@@ -29,7 +29,9 @@ int main()
         std::cout << player.GetName() << std::endl;
 		std::cout << player.GetArmor() << std::endl;
 
-        std::cout << static_cast<float>(player.GetHealth()) << std::endl;
+		Sleep(100);
 
+        if (GetKeyState('A'))
+            break;
     }
 }
