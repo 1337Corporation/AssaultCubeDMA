@@ -30,15 +30,12 @@ class Player
 		Player(uintptr_t Offset, bool IsOffset);
 		~Player() { std::cout << "Player has been destroyed" << std::endl; };
 
-		bool IsValid() const { return Ptr != nullptr; };
+		bool IsValid() const				{ return Ptr != nullptr; };
 
-		void SetHealth(int Value) const
-		{
-			if (Address)
-			{
-				TargetProcess.Write<int>(Address + 0xEC, Value);
-			}
-		};
+		void SetHealth(int Value) 	const		{ if (Address) { TargetProcess.Write<int>(Address + 0xEC, Value); } }
+		void SetArmor(int Value) 	const		{ if (Address) { TargetProcess.Write<int>(Address + 0xF0, Value); } }
 
-		int GetHealth() const { return Ptr->Health; };
+		int GetHealth() 			const		{ return Ptr->Health; 	};
+		int GetArmor()				const		{ return Ptr->Armor;	};
+		char *GetName() 			const		{ return Ptr->Name; 	};
 };

@@ -23,6 +23,11 @@ int main()
         }
 
         player.SetHealth(111111);
+        player.SetArmor(2424242);
+
+        std::cout << player.GetHealth() << std::endl;
+        std::cout << player.GetName() << std::endl;
+		std::cout << player.GetArmor() << std::endl;
 
         std::cout << static_cast<float>(player.GetHealth()) << std::endl;
 
