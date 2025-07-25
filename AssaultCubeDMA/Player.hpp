@@ -28,6 +28,7 @@ class Player
 		uintptr_t						Address 		= 0;
 	public:
 		Player(uintptr_t Offset, bool IsOffset);
+		~Player() { std::cout << "Player has been destroyed" << std::endl; };
 
 		bool IsValid() const { return Ptr != nullptr; };
 
