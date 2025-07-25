@@ -141,6 +141,7 @@
     <ClInclude Include="Globals.h" />
     <ClInclude Include="Player.hpp" />
     <ClInclude Include="Vectors.hpp" />
+    <ClInclude Include="Weapon.hpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
