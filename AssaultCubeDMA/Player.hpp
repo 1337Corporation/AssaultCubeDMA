@@ -4,7 +4,7 @@
 
 struct PlayerStruct
 {
-	uint32_t	VFTable;		// Virtual Function Table
+	uint32_t	VFTable;		// 0x000
 
 	Vec3   		Position;		// 0x004
 	char   		Pad1[0x0EC - 0x004 - sizeof(Vec3)];
