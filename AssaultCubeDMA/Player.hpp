@@ -18,16 +18,16 @@ struct PlayerStruct
 	char			Pad2[0xEC - 0x0E4 - sizeof(int)];		// 4
 	int				Health;									// 0x0EC	236 -> 240
 	int				Armor;									// 0x0F0	240 -> 244
-	char   			Pad2[0x1DC - 0x0F0 - sizeof(int)];		// 232
+	char   			Pad3[0x1DC - 0x0F0 - sizeof(int)];		// 232
 	int 			Frags;									// 0x1DC	476 -> 480
-	char 			Pad3[0x1E4 - 0x1DC - sizeof(int)];		// 4
+	char 			Pad4[0x1E4 - 0x1DC - sizeof(int)];		// 4
 	int 			Deaths;									// 0x1E4	484 -> 488
-	char   			Pad4[0x205 - 0x1E4 - sizeof(int)];		// 29
+	char   			Pad5[0x205 - 0x1E4 - sizeof(int)];		// 29
 	char   			Name[16];								// 0x205	517 -> 533
-	char			Pad5[0x30C - 0x205 - sizeof(char[16])];	// 247
+	char			Pad6[0x30C - 0x205 - sizeof(char[16])];	// 247
 	int				Team; 									// 0x30C	780 -> 784
 
-	char			Pad6[0x33C - 0x30C - sizeof(int)];
+	char			Pad7[0x33C - 0x30C - sizeof(int)];
 
 	WeaponStruct	*Knife;									// 0x33C
 	WeaponStruct	*Pistol;								// 0x340
