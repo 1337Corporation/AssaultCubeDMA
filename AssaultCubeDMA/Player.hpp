@@ -13,7 +13,9 @@ struct PlayerStruct
 	Vec3			PositionFeet;							// 0x028	40 -> 52
 	float			Yaw;									// 0x034	52 -> 56
 	float 			Pitch;									// 0x038	56 -> 60
-	char			Pad1[0xEC - 0x038 - sizeof(float)];		// 176
+	char			Pad1[0xE4 - 0x038 - sizeof(float)];		// 168
+	int				LastVisibleFrame;						// 0x0E4	228 -> 232
+	char			Pad2[0xEC - 0x0E4 - sizeof(int)];		// 4
 	int				Health;									// 0x0EC	236 -> 240
 	int				Armor;									// 0x0F0	240 -> 244
 	char   			Pad2[0x1DC - 0x0F0 - sizeof(int)];		// 232
