@@ -6,20 +6,24 @@ struct WeaponStruct;
 
 struct PlayerStruct
 {
-	uint32_t		VFTable;								// 0x000
+	uint32_t		VFTable;								// 0x000	0
 
-	Vec3   			Position;								// 0x004
-	char   			Pad1[0x0EC - 0x004 - sizeof(Vec3)];
-	int				Health;									// 0x0EC
-	int				Armor;									// 0x0F0
-	char   			Pad2[0x1DC - 0x0F0 - sizeof(int)];
-	int 			Frags;									// 0x1DC
-	char 			Pad3[0x1E4 - 0x1DC - sizeof(int)];
-	int 			Deaths;									// 0x1E4
-	char   			Pad4[0x205 - 0x1E4 - sizeof(int)];
-	char   			Name[16];								// 0x205
-	char			Pad5[0x30C - 0x205 - sizeof(char[16])];
-	int				Team; 									// 0x30C
+	Vec3   			PositionHead;							// 0x004	4 -> 16
+	char   			Pad0[0x028 - 0x004 - sizeof(Vec3)];		// 220
+	Vec3			PositionFeet;							// 0x028	40 -> 52
+	float			Yaw;									// 0x034	52 -> 56
+	float 			Pitch;									// 0x038	56 -> 60
+	char			Pad1[0xEC - 0x038 - sizeof(float)];		// 176
+	int				Health;									// 0x0EC	236 -> 240
+	int				Armor;									// 0x0F0	240 -> 244
+	char   			Pad2[0x1DC - 0x0F0 - sizeof(int)];		// 232
+	int 			Frags;									// 0x1DC	476 -> 480
+	char 			Pad3[0x1E4 - 0x1DC - sizeof(int)];		// 4
+	int 			Deaths;									// 0x1E4	484 -> 488
+	char   			Pad4[0x205 - 0x1E4 - sizeof(int)];		// 29
+	char   			Name[16];								// 0x205	517 -> 533
+	char			Pad5[0x30C - 0x205 - sizeof(char[16])];	// 247
+	int				Team; 									// 0x30C	780 -> 784
 
 	char			Pad6[0x33C - 0x30C - sizeof(int)];
 
