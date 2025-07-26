@@ -52,6 +52,8 @@ class Player
 		PlayerStruct					*Ptr			= nullptr;
 		uintptr_t						Address 		= 0;
 	public:
+		Player() = default;
+		Player(uintptr_t PlayerPtr);
 		Player(uintptr_t Offset, bool IsOffset);
 		~Player() { std::cout << "Player has been destroyed" << std::endl; };
 
