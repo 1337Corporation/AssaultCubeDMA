@@ -71,6 +71,30 @@ Player::Player(Player &&other) noexcept
 }
 
 /// <summary>
+/// Move assignment operator for the Player class. Transfers the resources and data from another Player object to this one, leaving the source in a valid but unspecified state.
+/// </summary>
+/// <param name="other">The Player object to move from.</param>
+/// <returns>A reference to this Player object after the move assignment.</returns>
+Player &Player::operator=(Player &&other) noexcept
+{
+	if (this != &other)
+	{
+		ClassStruct 	= std::move(other.ClassStruct);
+		PlayerData 		= ClassStruct.get();
+		Address 		= other.Address;
+		ScreenHead 		= other.ScreenHead;
+		ScreenFeet 		= other.ScreenFeet;
+		IsEnemyFlag 	= other.IsEnemyFlag;
+		IsVisibleFlag 	= other.IsVisibleFlag;
+		Distance 		= other.Distance;
+		BoxHeight 		= other.BoxHeight;
+		BoxWidth 		= other.BoxWidth;
+		AimDistance	 	= other.AimDistance;
+	}
+	return *this;
+}
+
+/// <summary>
 /// Provides access to the underlying PlayerStruct pointer for the Player object.
 /// </summary>
 /// <returns>A pointer to the PlayerStruct associated with this Player object.</returns>
