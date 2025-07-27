@@ -50,3 +50,19 @@ Player::Player(uintptr_t Offset, bool IsOffset)
 	ClassStruct = std::move(Temp);
 	Address = PlayerPtr;
 }
+
+Player::Player(Player &&other) noexcept
+{
+	ClassStruct 	= std::move(other.ClassStruct);
+	PlayerData 		= ClassStruct.get();
+	Address 		= other.Address;
+	ScreenHead 		= other.ScreenHead;
+	ScreenFeet 		= other.ScreenFeet;
+	IsEnemyFlag 	= other.IsEnemyFlag;
+	IsVisibleFlag 	= other.IsVisibleFlag;
+	Distance 		= other.Distance;
+	BoxHeight 		= other.BoxHeight;
+	BoxWidth 		= other.BoxWidth;
+	AimDistance	 	= other.AimDistance;
+}
+
