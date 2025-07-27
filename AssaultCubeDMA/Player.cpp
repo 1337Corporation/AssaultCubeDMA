@@ -148,3 +148,103 @@ bool Player::IsVisible(int CurrentFrame) const
 		return true;
 	return false;
 }
+
+/// <summary>
+/// Retrieves the player's current health value.
+/// </summary>
+/// <returns>The player's health if the player is valid; otherwise, returns 0.</returns>
+int Player::GetHealth() const
+{
+	if (IsValid())
+		return PlayerData->Health;
+	return 0;
+}
+
+/// <summary>
+/// Retrieves the player's armor value.
+/// </summary>
+/// <returns>The player's armor value if the player is valid; otherwise, returns 0.</returns>
+int Player::GetArmor() const
+{
+	if (IsValid())
+		return PlayerData->Armor;
+	return 0;
+}
+
+/// <summary>
+/// Retrieves the name of the player if the player is valid.
+/// </summary>
+/// <returns>A pointer to the player's name if the player is valid; otherwise, nullptr.</returns>
+char *Player::GetName() const
+{
+	if (IsValid())
+		return PlayerData->Name;
+	return nullptr;
+}
+
+/// <summary>
+/// Returns the player's team identifier, or -1 if the player is invalid.
+/// </summary>
+/// <returns>The team identifier (the least significant bit of PlayerData->Team) if the player is valid; otherwise, -1.</returns>
+int Player::GetTeam() const
+{
+	if (IsValid())
+		return PlayerData->Team & 1; // Assuming Team is a bitmask, return the first bit
+	return -1;
+}
+
+/// <summary>
+/// Retrieves the yaw angle of the player.
+/// </summary>
+/// <returns>The player's yaw angle if the player is valid; otherwise, returns 0.0f.</returns>
+float Player::GetYaw() const
+{
+	if (IsValid())
+		return PlayerData->Yaw;
+	return 0.f;
+}
+
+/// <summary>
+/// Retrieves the pitch value of the player.
+/// </summary>
+/// <returns>The player's pitch value if the player is valid; otherwise, returns 0.0f.</returns>
+float Player::GetPitch() const
+{
+	if (IsValid())
+		return PlayerData->Pitch;
+	return 0.f;
+}
+
+/// <summary>
+/// Returns the position of the player's head in 3D space.
+/// </summary>
+/// <returns>A Vec3 representing the player's head position if the player is valid; otherwise, returns a zero vector (0.f, 0.f, 0.f).</returns>
+Vec3 Player::GetHeadPos() const
+{
+	if (IsValid())
+		return (PlayerData->PositionHead + Vec3(0.f, 0.f, 0.75f));
+	return Vec3{0.f, 0.f, 0.f};
+}
+
+/// <summary>
+/// Returns the position of the player's feet in 3D space.
+/// </summary>
+/// <returns>A Vec3 representing the player's feet position if the player is valid; otherwise, a zero vector (0.f, 0.f, 0.f).</returns>
+Vec3 Player::GetFeetPos() const
+{
+	if (IsValid())
+		return PlayerData->PositionFeet;
+	return Vec3{0.f, 0.f, 0.f};
+}
+
+/// <summary>
+/// Calculates the distance from this player to another player.
+/// </summary>
+/// <param name="Other">A reference to the other Player object to which the distance is measured.</param>
+/// <returns>The distance between the head positions of the two players if both are valid; otherwise, returns 0.0f.</returns>
+float Player::GetDistanceTo(const Player &Other) const
+{
+	if (IsValid() && Other.IsValid())
+		return GetHeadPos().Distance(Other.GetHeadPos());
+	return 0.f;
+}
