@@ -51,6 +51,10 @@ Player::Player(uintptr_t Offset, bool IsOffset)
 	Address = PlayerPtr;
 }
 
+/// <summary>
+/// Move constructor for the Player class. Transfers the resources and state from another Player object to this one.
+/// </summary>
+/// <param name="other">The Player object to move from. Its resources and state will be transferred to the new object.</param>
 Player::Player(Player &&other) noexcept
 {
 	ClassStruct 	= std::move(other.ClassStruct);
