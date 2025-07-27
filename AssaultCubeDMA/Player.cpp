@@ -103,6 +103,10 @@ PlayerStruct *Player::operator->() const
 	return PlayerData;
 }
 
+/// <summary>
+/// Checks whether the player is valid by verifying that PlayerData is not null.
+/// </summary>
+/// <returns>true if PlayerData is not null; otherwise, false.</returns>
 bool Player::IsValid() const
 {
 	if (PlayerData != nullptr)
@@ -110,6 +114,10 @@ bool Player::IsValid() const
 	return false;
 }
 
+/// <summary>
+/// Checks whether the player is alive.
+/// </summary>
+/// <returns>true if the player is valid and has health greater than zero; otherwise, false.</returns>
 bool Player::IsAlive() const
 {
 	if (IsValid() && PlayerData->Health > 0)
@@ -117,6 +125,11 @@ bool Player::IsAlive() const
 	return false;
 }
 
+/// <summary>
+/// Determines whether the player is an enemy of the specified local player.
+/// </summary>
+/// <param name="LocalPlayer">A reference to the local player to compare teams with.</param>
+/// <returns>true if the player is valid and on a different team (based on the least significant bit of the team value) than the local player; otherwise, false.</returns>
 bool Player::IsEnemy(const Player &LocalPlayer) const
 {
 	if (IsValid() && (PlayerData->Team & 1) != (LocalPlayer->Team & 1))
@@ -124,6 +137,11 @@ bool Player::IsEnemy(const Player &LocalPlayer) const
 	return false;
 }
 
+/// <summary>
+/// Determines whether the player is visible in the specified frame.
+/// </summary>
+/// <param name="CurrentFrame">The current frame number to check visibility against.</param>
+/// <returns>true if the player is valid and was last visible in or after the specified frame; otherwise, false.</returns>
 bool Player::IsVisible(int CurrentFrame) const
 {
 	if (IsValid() && PlayerData->LastVisibleFrame >= CurrentFrame)
