@@ -14,7 +14,7 @@ Player::Player(uintptr_t PlayerPtr)
 		std::cout << "Failed to read on PlayerPtr" << std::endl;
 		return;
 	}
-	Ptr = Temp.get();
+	PlayerData = Temp.get();
 	ClassStruct = std::move(Temp);
 	Address = PlayerPtr;
 }
@@ -46,7 +46,7 @@ Player::Player(uintptr_t Offset, bool IsOffset)
 		std::cout << "No player ptr";
 		return;
 	}
-	Ptr = Temp.get();
+	PlayerData = Temp.get();
 	ClassStruct = std::move(Temp);
 	Address = PlayerPtr;
 }
