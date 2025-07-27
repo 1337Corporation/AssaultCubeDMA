@@ -15,13 +15,13 @@ struct Vec2
 	float Y;
 
 	Vec2() = default;
-	Vec2(float x, float y) : X(x), Y(y) { }
+	Vec2(float X, float Y) : X(X), Y(Y) { }
 
-    float DistanceTo(const Vec2& other) const
+    float DistanceTo(const Vec2 &other) const
 	{
-        float Dx = X - other.X;
-        float Dy = Y - other.Y;
-        return sqrtf(Dx * Dx + Dy * Dy);
+        float DX = X - other.X;
+        float DY = Y - other.Y;
+        return sqrtf(DX * DX + DY * DY);
     }
 };
 
@@ -31,7 +31,7 @@ struct Vec3
 	float Y;
 	float Z;
 
-	Vec3(float x, float y, float z) : X(x), Y(y), Z(z) { }
+	Vec3(float X = 0, float Y = 0, float Z = 0) : X(X), Y(Y), Z(Z) { }
 
 	Vec3 operator+(const Vec3 &Other) const
 	{
@@ -53,11 +53,11 @@ struct Vec3
 		return Vec3(X * Scalar, Y * Scalar, Z * Scalar);
 	}
 
-    float Distance(const Vec3& Other) const
+    float Distance(const Vec3 &Other) const
 	{
-		float Dx = X - Other.X;
-		float Dy = Y - Other.Y;
-		float Dz = Z - Other.Z;
-		return std::sqrt(Dx * Dx + Dy * Dy + Dz * Dz);
+		float DX = X - Other.X;
+		float DY = Y - Other.Y;
+		float DZ = Z - Other.Z;
+		return std::sqrt(DX * DX + DY * DY + DZ * DZ);
 	}
 };
