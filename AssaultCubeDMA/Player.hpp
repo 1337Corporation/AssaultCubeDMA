@@ -1,3 +1,5 @@
+#pragma once
+
 #include <Memory.h>
 #include "Vectors.hpp"
 #include <iostream>
@@ -49,7 +51,7 @@ class Player
 {
 	private:
 		std::unique_ptr<PlayerStruct>	ClassStruct;
-		PlayerStruct					*Ptr			= nullptr;
+		PlayerStruct					*PlayerData		= nullptr;
 		uintptr_t						Address 		= 0;
 	public:
 		Player() = default;
@@ -57,13 +59,40 @@ class Player
 		Player(uintptr_t Offset, bool IsOffset);
 		~Player() { std::cout << "Player has been destroyed" << std::endl; };
 
-		bool IsValid()				const		{ return Ptr != nullptr; };
-		bool IsAlive()				const		{ return Ptr && Ptr->Health > 0; };
+		Player(Player &&other) noexcept;
+		Player &operator=(Player &&other) noexcept;
+
+		Player(const Player&) = delete;
+		Player &operator=(const Player&) = delete;
+
+		PlayerStruct*	operator->()				const;
+
+		Vec2 ScreenHead = { };
+		Vec2 ScreenFeet = { };
+
+		bool	IsVisibleFlag = false;
+		bool	IsEnemyFlag = false;
+		float	Distance = 0.f;
+		float	BoxHeight = 0.f;
+		float	BoxWidth = 0.f;
+		float	AimDistance = 0.f;
+
+
+		bool	IsValid()							const;
+		bool	IsAlive()							const;
+		bool	IsEnemy(const Player &LocalPlayer)	const;
+		bool	IsVisible(int CurrentFrame)			const;
 
 		void SetHealth(int Value) 	const		{ if (Address) { TargetProcess.Write<int>(Address + 0xEC, Value); } }
 		void SetArmor(int Value) 	const		{ if (Address) { TargetProcess.Write<int>(Address + 0xF0, Value); } }
 
-		int GetHealth() 			const		{ return Ptr->Health; 	};
-		int GetArmor()				const		{ return Ptr->Armor;	};
-		char *GetName() 			const		{ return Ptr->Name; 	};
+		//int		GetHealth() 						const;
+		//int		GetArmor()							const;
+		//char*	GetName() 							const;
+		//int		GetTeam()							const;
+		//float	GetYaw()							const;
+		//float	GetPitch()							const;
+		//Vec3	GetHeadPos()						const;
+		//Vec3	GetFeetPos()						const;
+		//float	GetDistance(const Player &Other)	const;
 };
