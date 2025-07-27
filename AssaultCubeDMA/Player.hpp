@@ -86,13 +86,13 @@ class Player
 		void SetHealth(int Value) 	const		{ if (Address) { TargetProcess.Write<int>(Address + 0xEC, Value); } }
 		void SetArmor(int Value) 	const		{ if (Address) { TargetProcess.Write<int>(Address + 0xF0, Value); } }
 
-		//int		GetHealth() 						const;
-		//int		GetArmor()							const;
-		//char*	GetName() 							const;
-		//int		GetTeam()							const;
-		//float	GetYaw()							const;
-		//float	GetPitch()							const;
-		//Vec3	GetHeadPos()						const;
-		//Vec3	GetFeetPos()						const;
-		//float	GetDistance(const Player &Other)	const;
+		int		GetHealth() 						const;
+		int		GetArmor()							const;
+		char*	GetName() 							const;
+		int		GetTeam()							const;
+		float	GetYaw()							const;
+		float	GetPitch()							const;
+		Vec3	GetHeadPos()						const;
+		Vec3	GetFeetPos()						const;
+		float	GetDistanceTo(const Player &Other)	const;
 };
