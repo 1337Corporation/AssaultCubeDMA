@@ -79,3 +79,30 @@ PlayerStruct *Player::operator->() const
 	return PlayerData;
 }
 
+bool Player::IsValid() const
+{
+	if (PlayerData != nullptr)
+		return true;
+	return false;
+}
+
+bool Player::IsAlive() const
+{
+	if (IsValid() && PlayerData->Health > 0)
+		return true;
+	return false;
+}
+
+bool Player::IsEnemy(const Player &LocalPlayer) const
+{
+	if (IsValid() && (PlayerData->Team & 1) != (LocalPlayer->Team & 1))
+		return true;
+	return false;
+}
+
+bool Player::IsVisible(int CurrentFrame) const
+{
+	if (IsValid() && PlayerData->LastVisibleFrame >= CurrentFrame)
+		return true;
+	return false;
+}
