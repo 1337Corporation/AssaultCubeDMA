@@ -70,3 +70,12 @@ Player::Player(Player &&other) noexcept
 	AimDistance	 	= other.AimDistance;
 }
 
+/// <summary>
+/// Provides access to the underlying PlayerStruct pointer for the Player object.
+/// </summary>
+/// <returns>A pointer to the PlayerStruct associated with this Player object.</returns>
+PlayerStruct *Player::operator->() const
+{
+	return PlayerData;
+}
+
