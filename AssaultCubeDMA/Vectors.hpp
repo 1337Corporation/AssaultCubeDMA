@@ -10,10 +10,12 @@ struct Vec2
 	Vec2() = default;
 	Vec2(float x, float y) : X(x), Y(y) { }
 
-	float DistanceTo(const Vec2 &other) const
+    float DistanceTo(const Vec2& other) const
 	{
-		return std::sqrt(std::pow(other.X - X, 2) + std::pow(other.Y - Y, 2));
-	}
+        float Dx = X - other.X;
+        float Dy = Y - other.Y;
+        return sqrtf(Dx * Dx + Dy * Dy);
+    }
 };
 
 struct Vec3
