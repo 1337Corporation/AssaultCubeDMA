@@ -248,3 +248,27 @@ float Player::GetDistanceTo(const Player &Other) const
 		return GetHeadPos().Distance(Other.GetHeadPos());
 	return 0.f;
 }
+
+/// <summary>
+/// Sets the player's health to the specified value.
+/// </summary>
+/// <param name="Value">The new health value to set for the player.</param>
+void Player::SetHealth(int Value) const
+{
+	if (Address)
+	{
+		TargetProcess.Write<int>(Address + 0xEC, Value);
+	}
+}
+
+/// <summary>
+/// Sets the player's armor value in memory.
+/// </summary>
+/// <param name="Value">The new armor value to set for the player.</param>
+void Player::SetArmor(int Value) const
+{
+	if (Address)
+	{
+		TargetProcess.Write<int>(Address + 0xF0, Value);
+	}
+}

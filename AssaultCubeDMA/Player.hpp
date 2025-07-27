@@ -67,15 +67,15 @@ class Player
 
 		PlayerStruct*	operator->()				const;
 
-		Vec2 ScreenHead = { };
-		Vec2 ScreenFeet = { };
+		Vec2 ScreenHead 							= { };
+		Vec2 ScreenFeet 							= { };
 
-		bool	IsVisibleFlag = false;
-		bool	IsEnemyFlag = false;
-		float	Distance = 0.f;
-		float	BoxHeight = 0.f;
-		float	BoxWidth = 0.f;
-		float	AimDistance = 0.f;
+		bool	IsVisibleFlag 						= false;
+		bool	IsEnemyFlag 						= false;
+		float	Distance 							= 0.f;
+		float	BoxHeight 							= 0.f;
+		float	BoxWidth 							= 0.f;
+		float	AimDistance 						= 0.f;
 
 
 		bool	IsValid()							const;
@@ -83,16 +83,16 @@ class Player
 		bool	IsEnemy(const Player &LocalPlayer)	const;
 		bool	IsVisible(int CurrentFrame)			const;
 
-		void SetHealth(int Value) 	const		{ if (Address) { TargetProcess.Write<int>(Address + 0xEC, Value); } }
-		void SetArmor(int Value) 	const		{ if (Address) { TargetProcess.Write<int>(Address + 0xF0, Value); } }
+		void 	SetHealth(int Value) 				const;
+		void 	SetArmor(int Value) 				const;
 
 		int		GetHealth() 						const;
 		int		GetArmor()							const;
 		char*	GetName() 							const;
 		int		GetTeam()							const;
 		float	GetYaw()							const;
-		float	GetPitch()							const;
 		Vec3	GetHeadPos()						const;
+		float	GetPitch()							const;
 		Vec3	GetFeetPos()						const;
 		float	GetDistanceTo(const Player &Other)	const;
 };
