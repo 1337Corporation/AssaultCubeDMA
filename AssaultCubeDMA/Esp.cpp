@@ -41,9 +41,8 @@ void ComputePlayerBox(Player &Player)
 /// <summary>
 /// Calculates the top-left corner coordinates of a player's bounding box on the screen.
 /// </summary>
-/// <param name="Player">A reference to the Player object containing screen position and box width information.</param>
-/// <returns>An ImVec2 representing the top-left coordinates of the player's bounding box.</returns>
-ImVec2 GetBoxTopLeft(const Player &Player)
+/// <param name="Player">A reference to the Pweft coordinates of the player's bounding box.</returns>
+static ImVec2 GetBoxTopLeft(const Player &Player)
 {
 	return ImVec2(Player.ScreenHead.X - Player.BoxWidth / 2, Player.ScreenHead.Y);
 }
@@ -53,7 +52,7 @@ ImVec2 GetBoxTopLeft(const Player &Player)
 /// </summary>
 /// <param name="Player">A reference to the Player object whose bounding box is being calculated.</param>
 /// <returns>An ImVec2 representing the screen coordinates of the bottom-right corner of the player's box.</returns>
-ImVec2 GetBoxBottomRight(const Player &Player)
+static ImVec2 GetBoxBottomRight(const Player &Player)
 {
 	return ImVec2(Player.ScreenHead.X + Player.BoxWidth / 2, Player.ScreenFeet.Y);
 }
@@ -63,7 +62,7 @@ ImVec2 GetBoxBottomRight(const Player &Player)
 /// </summary>
 /// <param name="Player">A reference to the Player object whose box color is to be determined.</param>
 /// <returns>An ImU32 value representing the color: red for visible enemies, yellow for hidden enemies, and green for non-enemies.</returns>
-ImU32 GetBoxColor(const Player &Player)
+static ImU32 GetBoxColor(const Player &Player)
 {
 	if (Player.IsEnemyFlag)
 	{
@@ -79,7 +78,7 @@ ImU32 GetBoxColor(const Player &Player)
 /// <param name="Player">Reference to the Player object for which the box will be drawn.</param>
 /// <param name="Rounding">The corner rounding radius for the box.</param>
 /// <param name="Thickness">The thickness of the box outline.</param>
-void DrawPlayerBox(ImDrawList *DrawList, const Player &Player, float Rounding, float Thickness)
+static void DrawPlayerBox(ImDrawList *DrawList, const Player &Player, float Rounding, float Thickness)
 {
 	if (!DrawList)
 	{
@@ -94,24 +93,51 @@ void DrawPlayerBox(ImDrawList *DrawList, const Player &Player, float Rounding, f
 }
 
 /// <summary>
-/// Draws the player's name above their bounding box using the specified draw list.
+/// Draws the player's name horizontally centered above their bounding box using the specified draw list.
 /// </summary>
 /// <param name="DrawList">Pointer to the ImDrawList used for rendering the text.</param>
 /// <param name="Player">Reference to the Player object whose name will be drawn.</param>
-void DrawPlayerName(ImDrawList* DrawList, const Player &Player)
+static void DrawPlayerNameAndDistance(ImDrawList* DrawList, const Player &Player)
 {
-	ImVec2 TopLeft = GetBoxTopLeft(Player);
-	ImVec2 TextSize = ImGui::CalcTextSize(Player.GetName());
-	ImVec2 Position = ImVec2(TopLeft.x - TextSize.x / 2.0f, TopLeft.y - 20.0f);
+	char buffer[64];
 
-	DrawList->AddText(Position, IM_COL32(255, 255, 255, 255), Player.GetName());
+	snprintf(buffer, sizeof(buffer), "%s (%.1fm)", Player.GetName(), Player.Distance);
+
+	ImVec2 TopLeft = GetBoxTopLeft(Player);
+	ImVec2 BottomRight = GetBoxBottomRight(Player);
+	ImVec2 TextSize = ImGui::CalcTextSize(buffer);
+
+	float BoxCenterX = (TopLeft.x + BottomRight.x) / 2.0f;
+
+	ImVec2 Position = ImVec2(BoxCenterX - TextSize.x / 2.0f, TopLeft.y - TextSize.y - 5.0f);
+
+	DrawList->AddText(Position, IM_COL32(255, 255, 255, 255), buffer);
+}
+
+void DrawPlayerHealth(ImDrawList *DrawList, const Player &Player)
+{
+}
+
+/// <summary>
+/// Draws a snapline from the center bottom of the screen to the player's feet position.
+/// </summary>
+/// <param name="DrawList">Pointer to the ImDrawList used for rendering the snapline.</param>
+/// <param name="Player">Reference to the Player object whose snapline will be drawn.</param>
+static void DrawPlayerSnapline(ImDrawList *DrawList, const Player &Player)
+{
+	if (Player.IsEnemyFlag)
+	{
+		ImVec2 ScreenBottomCenter = ImVec2(ScreenWidth / 2, ScreenHeight);
+		ImVec2 PlayerScreenFeet = ConvertVec2ToImVec2(Player.ScreenFeet);
+		DrawList->AddLine(ScreenBottomCenter, PlayerScreenFeet, IM_COL32(255, 255, 255, 255), 1.0f);
+	}
 }
 
 /// <summary>
 /// Draws ESP (Extra Sensory Perception) overlays for enemy players using ImGui.
 /// </summary>
 /// <param name="Players">A vector containing Player objects to be processed for ESP drawing.</param>
-void DrawESP(const std::vector<Player>& Players)
+void DrawESP(const std::vector<Player> &Players)
 {
 	if (!ImGui::GetCurrentContext())
 	{
@@ -125,8 +151,10 @@ void DrawESP(const std::vector<Player>& Players)
 	}
 
 	for (const auto &Player : Players)
-	{
+	{	
 		DrawPlayerBox(DrawList, Player, 0.0f, 1.0f);
-		DrawPlayerName(DrawList, Player);
+		DrawPlayerNameAndDistance(DrawList, Player);
+		DrawPlayerSnapline(DrawList, Player);
+		//DrawPlayerHealth(DrawList, Player);g
 	}
 }

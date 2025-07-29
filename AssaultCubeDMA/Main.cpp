@@ -21,12 +21,11 @@ int main()
 	}
 
 	ImGuiIO& io = InitOverlay();
-	// === MAIN LOOP ===
+
 	while (msg.message != WM_QUIT)
 	{
 		HandleWindowMessages(msg);
 		UpdateRenderDimensions();
-
 
 		if (!HandleDeviceResetIfNeeded(LastWidth, LastHeight))
 			break;
