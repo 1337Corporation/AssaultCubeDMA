@@ -3,7 +3,7 @@
 extern IMGUI_IMPL_API LRESULT ImGui_ImplWin32_WndProcHandler(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam);
 
 /// <summary>
-/// Creates and displays a transparent overlay window on top of all other windows.
+/// Creates and displays a transparent overlay window on top of all Other windows.
 /// </summary>
 /// <returns>Returns true if the overlay window was created and shown successfully.</returns>
 bool CreateOverlayWindow()
@@ -182,10 +182,10 @@ void HandleWindowMessages(MSG& msg)
 }
 
 /// <summary>
-/// Handles device reset if the screen size has changed, updating device objects as needed.
+/// Handles device reset if the Screen size has changed, updating device objects as needed.
 /// </summary>
-/// <param name="LastWidth">Reference to the last known screen width. Updated if a reset occurs.</param>
-/// <param name="LastHeight">Reference to the last known screen height. Updated if a reset occurs.</param>
+/// <param name="LastWidth">Reference to the last known Screen Width. Updated if a reset occurs.</param>
+/// <param name="LastHeight">Reference to the last known Screen Height. Updated if a reset occurs.</param>
 /// <returns>True if the device is ready for use after checking or resetting; false if the device reset failed.</returns>
 bool HandleDeviceResetIfNeeded(int &LastWidth, int &LastHeight)
 {
