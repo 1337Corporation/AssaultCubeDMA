@@ -114,8 +114,43 @@ static void DrawPlayerNameAndDistance(ImDrawList* DrawList, const Player &Player
 	DrawList->AddText(Position, IM_COL32(255, 255, 255, 255), buffer);
 }
 
-void DrawPlayerHealth(ImDrawList *DrawList, const Player &Player)
+static void DrawPlayerHealth(ImDrawList *DrawList, const Player &Player)
 {
+    if (!DrawList || !Player.IsEnemyFlag)
+    {
+        return;
+    }
+
+    ImVec2 TopLeft = GetBoxTopLeft(Player);
+    ImVec2 BottomRight = GetBoxBottomRight(Player);
+
+    float BarWidth = 4.0f;
+    float BarHeight = BottomRight.y - TopLeft.y;
+    float BarOffset = 8.0f;
+
+    ImVec2 BarTopLeft = ImVec2(TopLeft.x - BarOffset - BarWidth, TopLeft.y);
+    ImVec2 BarBottomRight = ImVec2(TopLeft.x - BarOffset, BottomRight.y);
+
+    DrawList->AddRectFilled(BarTopLeft, BarBottomRight, IM_COL32(0, 0, 0, 150));
+
+    float HealthPercent = Player.GetHealth() / 100.0f;
+    if (HealthPercent < 0.0f) HealthPercent = 0.0f;
+    if (HealthPercent > 1.0f) HealthPercent = 1.0f;
+
+    float FillHeight = BarHeight * HealthPercent;
+    ImVec2 FillTopLeft = ImVec2(BarTopLeft.x, BarBottomRight.y - FillHeight);
+    ImVec2 FillBottomRight = BarBottomRight;
+
+    ImU32 HealthColor;
+    if (HealthPercent > 0.6f)
+        HealthColor = IM_COL32(0, 255, 0, 255); // Green
+    else if (HealthPercent > 0.3f)
+        HealthColor = IM_COL32(255, 255, 0, 255); // Yellow
+    else
+        HealthColor = IM_COL32(255, 0, 0, 255); // Red
+
+    DrawList->AddRectFilled(FillTopLeft, FillBottomRight, HealthColor);
+    DrawList->AddRect(BarTopLeft, BarBottomRight, IM_COL32(255, 255, 255, 100), 0.0f, 0, 1.0f);
 }
 
 /// <summary>
@@ -151,10 +186,10 @@ void DrawESP(const std::vector<Player> &Players)
 	}
 
 	for (const auto &Player : Players)
-	{	
+	{
 		DrawPlayerBox(DrawList, Player, 0.0f, 1.0f);
 		DrawPlayerNameAndDistance(DrawList, Player);
 		DrawPlayerSnapline(DrawList, Player);
-		//DrawPlayerHealth(DrawList, Player);g
+		DrawPlayerHealth(DrawList, Player);
 	}
 }
