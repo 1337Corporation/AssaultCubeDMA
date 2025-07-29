@@ -169,27 +169,101 @@ static void DrawPlayerSnapline(ImDrawList *DrawList, const Player &Player)
 }
 
 /// <summary>
+/// Checks if the crosshair (center of screen) is hovering over a player's bounding box.
+/// </summary>
+/// <param name="Player">Reference to the Player object to check.</param>
+/// <returns>True if the crosshair is hovering over the player's box, false otherwise.</returns>
+static bool IsCrosshairHoveringPlayer(const Player &Player)
+{
+	float CrosshairX = ScreenWidth * 0.5f;
+	float CrosshairY = ScreenHeight * 0.5f;
+	constexpr float Padding = 10.0f;
+
+	const float BoxLeft = Player.ScreenHead.X - Player.BoxWidth * 0.5f - Padding;
+	const float BoxRight = Player.ScreenHead.X + Player.BoxWidth * 0.5f + Padding;
+	const float BoxTop = Player.ScreenHead.Y - Padding;
+	const float BoxBottom = Player.ScreenFeet.Y + Padding;
+
+	return (CrosshairX >= BoxLeft && CrosshairX <= BoxRight &&
+			CrosshairY >= BoxTop && CrosshairY <= BoxBottom);
+}
+
+/// <summary>
+/// Draws a popup tooltip with detailed player information when crosshair is hovering over a player.
+/// </summary>
+/// <param name="Player">Reference to the Player object whose information will be displayed.</param>
+static void DrawPlayerHoverPopup(const Player &Player)
+{
+	// Fixed position in top-left area of screen
+	constexpr float PopupX = 50.0f;
+	constexpr float PopupY = 50.0f;
+
+	ImGui::SetNextWindowPos(ImVec2(PopupX, PopupY), ImGuiCond_Always);
+	ImGui::SetNextWindowBgAlpha(0.9f);
+	ImGui::SetNextWindowSize(ImVec2(200.0f, 0.0f)); // Fixed width, auto height
+
+	ImGui::Begin("##PlayerInfo", nullptr,
+		ImGuiWindowFlags_NoTitleBar |
+		ImGuiWindowFlags_NoResize |
+		ImGuiWindowFlags_NoMove |
+		ImGuiWindowFlags_NoSavedSettings |
+		ImGuiWindowFlags_NoFocusOnAppearing |
+		ImGuiWindowFlags_NoNav);
+
+	// Player name and basic info
+	ImGui::TextColored(ImVec4(1.0f, 1.0f, 0.0f, 1.0f), "Player: %s", Player.GetName());
+	ImGui::Separator();
+
+	// Health and armor with color coding
+	const float healthPercent = Player.GetHealth() / 100.0f;
+	const ImVec4 healthColor = (healthPercent > 0.6f) ? ImVec4(0.0f, 1.0f, 0.0f, 1.0f) :
+							   (healthPercent > 0.3f) ? ImVec4(1.0f, 1.0f, 0.0f, 1.0f) :
+							   ImVec4(1.0f, 0.0f, 0.0f, 1.0f);
+
+	ImGui::TextColored(healthColor, "Health: %d/100", Player.GetHealth());
+	ImGui::Text("Armor: %d", Player.GetArmor());
+	ImGui::Text("Distance: %.1f m", Player.Distance);
+	ImGui::Text("Team: %d", Player.GetTeam());
+
+	// Visibility status
+	ImGui::TextColored(Player.IsVisibleFlag ? ImVec4(0.0f, 1.0f, 0.0f, 1.0f) : ImVec4(1.0f, 0.0f, 0.0f, 1.0f),
+		"Status: %s", Player.IsVisibleFlag ? "Visible" : "Hidden");
+
+	ImGui::End();
+}
+
+/// <summary>
 /// Draws ESP (Extra Sensory Perception) overlays for enemy players using ImGui.
 /// </summary>
 /// <param name="Players">A vector containing Player objects to be processed for ESP drawing.</param>
 void DrawESP(const std::vector<Player> &Players)
 {
 	if (!ImGui::GetCurrentContext())
-	{
 		return;
-	}
 
-	ImDrawList* DrawList = ImGui::GetBackgroundDrawList(); // use BackgroundDrawList to avoid z-order issues
+	ImDrawList* DrawList = ImGui::GetBackgroundDrawList();
 	if (!DrawList)
-	{
 		return;
-	}
+
+	const Player* HoveredPlayer = nullptr;
 
 	for (const auto &Player : Players)
 	{
 		DrawPlayerBox(DrawList, Player, 0.0f, 1.0f);
-		DrawPlayerNameAndDistance(DrawList, Player);
+		DrawPlayerDistance(DrawList, Player);
 		DrawPlayerSnapline(DrawList, Player);
 		DrawPlayerHealth(DrawList, Player);
+
+		// Check hover only for enemies through walls (not visible)
+		if (Player.IsEnemyFlag && IsCrosshairHoveringPlayer(Player))
+		{
+			HoveredPlayer = &Player;
+		}
+	}
+
+	// Draw popup for hovered player (rendered last to ensure it's on top)
+	if (HoveredPlayer)
+	{
+		DrawPlayerHoverPopup(*HoveredPlayer);
 	}
 }
