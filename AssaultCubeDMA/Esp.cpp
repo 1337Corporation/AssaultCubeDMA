@@ -94,6 +94,20 @@ void DrawPlayerBox(ImDrawList *DrawList, const Player &Player, float Rounding, f
 }
 
 /// <summary>
+/// Draws the player's name above their bounding box using the specified draw list.
+/// </summary>
+/// <param name="DrawList">Pointer to the ImDrawList used for rendering the text.</param>
+/// <param name="Player">Reference to the Player object whose name will be drawn.</param>
+void DrawPlayerName(ImDrawList* DrawList, const Player &Player)
+{
+	ImVec2 TopLeft = GetBoxTopLeft(Player);
+	ImVec2 TextSize = ImGui::CalcTextSize(Player.GetName());
+	ImVec2 Position = ImVec2(TopLeft.x - TextSize.x / 2.0f, TopLeft.y - 20.0f);
+
+	DrawList->AddText(Position, IM_COL32(255, 255, 255, 255), Player.GetName());
+}
+
+/// <summary>
 /// Draws ESP (Extra Sensory Perception) overlays for enemy players using ImGui.
 /// </summary>
 /// <param name="Players">A vector containing Player objects to be processed for ESP drawing.</param>
@@ -113,5 +127,6 @@ void DrawESP(const std::vector<Player>& Players)
 	for (const auto &Player : Players)
 	{
 		DrawPlayerBox(DrawList, Player, 0.0f, 1.0f);
+		DrawPlayerName(DrawList, Player);
 	}
 }

@@ -14,4 +14,5 @@ ImVec2 	GetBoxTopLeft(const Player& Player);
 ImVec2 	GetBoxBottomRight(const Player& Player);
 ImU32 	GetBoxColor(const Player& Player);
 
-void 	DrawPlayerBox(ImDrawList* DrawList, const Player& Player, float Rounding, float Thickness = 1.0f);
+void 	DrawPlayerBox(ImDrawList* DrawList, const Player &Player, float Rounding, float Thickness = 1.0f);
+void	DrawPlayerName(ImDrawList *DrawList, const Player &Player);
