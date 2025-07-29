@@ -1,12 +1,12 @@
 #include "Player.hpp"
 
 /// <summary>
-/// Constructs a Player object by reading player data from a specified memory address.
+/// Constructs a Player object by reading Player data from a specified memory address.
 /// </summary>
-/// <param name="PlayerPtr">The memory address (pointer) from which to read the player data.</param>
+/// <param name="PlayerPtr">The memory address (pointer) from which to read the Player data.</param>
 Player::Player(uintptr_t PlayerPtr)
 {
-	if (!PlayerPtr == 0)
+	if (PlayerPtr == 0)
 		return;
 	auto Temp = std::make_unique<PlayerStruct>();
 	if (!TargetProcess.Read(PlayerPtr, Temp.get(), sizeof(PlayerStruct)))
@@ -20,9 +20,9 @@ Player::Player(uintptr_t PlayerPtr)
 }
 
 /// <summary>
-/// Constructs a Player object by reading player data from a target process at a specified memory offset.
+/// Constructs a Player object by reading Player data from a target process at a specified memory offset.
 /// </summary>
-/// <param name="Offset">The memory offset from which to read the player pointer.</param>
+/// <param name="Offset">The memory offset from which to read the Player pointer.</param>
 /// <param name="IsOffset">Indicates whether the provided Offset should be used (true) or ignored (false).</param>
 Player::Player(uintptr_t Offset, bool IsOffset)
 {
@@ -43,7 +43,7 @@ Player::Player(uintptr_t Offset, bool IsOffset)
 	auto Temp = std::make_unique<PlayerStruct>();
 	if (!TargetProcess.Read(PlayerPtr, Temp.get(), sizeof(PlayerStruct)))
 	{
-		std::cout << "No player ptr";
+		std::cout << "No Player ptr";
 		return;
 	}
 	PlayerData = Temp.get();
@@ -54,42 +54,42 @@ Player::Player(uintptr_t Offset, bool IsOffset)
 /// <summary>
 /// Move constructor for the Player class. Transfers the resources and state from another Player object to this one.
 /// </summary>
-/// <param name="other">The Player object to move from. Its resources and state will be transferred to the new object.</param>
-Player::Player(Player &&other) noexcept
+/// <param name="Other">The Player object to move from. Its resources and state will be transferred to the new object.</param>
+Player::Player(Player &&Other) noexcept
 {
-	ClassStruct 	= std::move(other.ClassStruct);
-	PlayerData 		= ClassStruct.get();
-	Address 		= other.Address;
-	ScreenHead 		= other.ScreenHead;
-	ScreenFeet 		= other.ScreenFeet;
-	IsEnemyFlag 	= other.IsEnemyFlag;
-	IsVisibleFlag 	= other.IsVisibleFlag;
-	Distance 		= other.Distance;
-	BoxHeight 		= other.BoxHeight;
-	BoxWidth 		= other.BoxWidth;
-	AimDistance	 	= other.AimDistance;
+	ClassStruct		= std::move(Other.ClassStruct);
+	PlayerData		= ClassStruct.get();
+	Address			= Other.Address;
+	ScreenHead		= Other.ScreenHead;
+	ScreenFeet		= Other.ScreenFeet;
+	IsEnemyFlag		= Other.IsEnemyFlag;
+	IsVisibleFlag	= Other.IsVisibleFlag;
+	Distance		= Other.Distance;
+	BoxHeight		= Other.BoxHeight;
+	BoxWidth		= Other.BoxWidth;
+	AimDistance		= Other.AimDistance;
 }
 
 /// <summary>
 /// Move assignment operator for the Player class. Transfers the resources and data from another Player object to this one, leaving the source in a valid but unspecified state.
 /// </summary>
-/// <param name="other">The Player object to move from.</param>
+/// <param name="Other">The Player object to move from.</param>
 /// <returns>A reference to this Player object after the move assignment.</returns>
-Player &Player::operator=(Player &&other) noexcept
+Player& Player::operator=(Player &&Other) noexcept
 {
-	if (this != &other)
+	if (this != &Other)
 	{
-		ClassStruct 	= std::move(other.ClassStruct);
-		PlayerData 		= ClassStruct.get();
-		Address 		= other.Address;
-		ScreenHead 		= other.ScreenHead;
-		ScreenFeet 		= other.ScreenFeet;
-		IsEnemyFlag 	= other.IsEnemyFlag;
-		IsVisibleFlag 	= other.IsVisibleFlag;
-		Distance 		= other.Distance;
-		BoxHeight 		= other.BoxHeight;
-		BoxWidth 		= other.BoxWidth;
-		AimDistance	 	= other.AimDistance;
+		ClassStruct		= std::move(Other.ClassStruct);
+		PlayerData		= ClassStruct.get();
+		Address			= Other.Address;
+		ScreenHead		= Other.ScreenHead;
+		ScreenFeet		= Other.ScreenFeet;
+		IsEnemyFlag		= Other.IsEnemyFlag;
+		IsVisibleFlag	= Other.IsVisibleFlag;
+		Distance		= Other.Distance;
+		BoxHeight		= Other.BoxHeight;
+		BoxWidth		= Other.BoxWidth;
+		AimDistance		= Other.AimDistance;
 	}
 	return *this;
 }
@@ -104,7 +104,7 @@ PlayerStruct *Player::operator->() const
 }
 
 /// <summary>
-/// Checks whether the player is valid by verifying that PlayerData is not null.
+/// Checks whether the Player is valid by verifying that PlayerData is not null.
 /// </summary>
 /// <returns>true if PlayerData is not null; otherwise, false.</returns>
 bool Player::IsValid() const
@@ -115,9 +115,9 @@ bool Player::IsValid() const
 }
 
 /// <summary>
-/// Checks whether the player is alive.
+/// Checks whether the Player is alive.
 /// </summary>
-/// <returns>true if the player is valid and has health greater than zero; otherwise, false.</returns>
+/// <returns>true if the Player is valid and has health greater than zero; otherwise, false.</returns>
 bool Player::IsAlive() const
 {
 	if (IsValid() && PlayerData->Health > 0)
@@ -126,10 +126,10 @@ bool Player::IsAlive() const
 }
 
 /// <summary>
-/// Determines whether the player is an enemy of the specified local player.
+/// Determines whether the Player is an enemy of the specified local Player.
 /// </summary>
-/// <param name="LocalPlayer">A reference to the local player to compare teams with.</param>
-/// <returns>true if the player is valid and on a different team (based on the least significant bit of the team value) than the local player; otherwise, false.</returns>
+/// <param name="LocalPlayer">A reference to the local Player to compare teams with.</param>
+/// <returns>true if the Player is valid and on a different team (based on the least significant bit of the team value) than the local Player; otherwise, false.</returns>
 bool Player::IsEnemy(const Player &LocalPlayer) const
 {
 	if (IsValid() && (PlayerData->Team & 1) != (LocalPlayer->Team & 1))
@@ -138,10 +138,10 @@ bool Player::IsEnemy(const Player &LocalPlayer) const
 }
 
 /// <summary>
-/// Determines whether the player is visible in the specified frame.
+/// Determines whether the Player is visible in the specified frame.
 /// </summary>
 /// <param name="CurrentFrame">The current frame number to check visibility against.</param>
-/// <returns>true if the player is valid and was last visible in or after the specified frame; otherwise, false.</returns>
+/// <returns>true if the Player is valid and was last visible in or after the specified frame; otherwise, false.</returns>
 bool Player::IsVisible(int CurrentFrame) const
 {
 	if (IsValid() && PlayerData->LastVisibleFrame >= CurrentFrame)
@@ -150,9 +150,9 @@ bool Player::IsVisible(int CurrentFrame) const
 }
 
 /// <summary>
-/// Retrieves the player's current health value.
+/// Retrieves the Player's current health value.
 /// </summary>
-/// <returns>The player's health if the player is valid; otherwise, returns 0.</returns>
+/// <returns>The Player's health if the Player is valid; otherwise, returns 0.</returns>
 int Player::GetHealth() const
 {
 	if (IsValid())
@@ -161,9 +161,9 @@ int Player::GetHealth() const
 }
 
 /// <summary>
-/// Retrieves the player's armor value.
+/// Retrieves the Player's armor value.
 /// </summary>
-/// <returns>The player's armor value if the player is valid; otherwise, returns 0.</returns>
+/// <returns>The Player's armor value if the Player is valid; otherwise, returns 0.</returns>
 int Player::GetArmor() const
 {
 	if (IsValid())
@@ -172,9 +172,9 @@ int Player::GetArmor() const
 }
 
 /// <summary>
-/// Retrieves the name of the player if the player is valid.
+/// Retrieves the name of the Player if the Player is valid.
 /// </summary>
-/// <returns>A pointer to the player's name if the player is valid; otherwise, nullptr.</returns>
+/// <returns>A pointer to the Player's name if the Player is valid; otherwise, nullptr.</returns>
 char *Player::GetName() const
 {
 	if (IsValid())
@@ -183,9 +183,9 @@ char *Player::GetName() const
 }
 
 /// <summary>
-/// Returns the player's team identifier, or -1 if the player is invalid.
+/// Returns the Player's team identifier, or -1 if the Player is invalid.
 /// </summary>
-/// <returns>The team identifier (the least significant bit of PlayerData->Team) if the player is valid; otherwise, -1.</returns>
+/// <returns>The team identifier (the least significant bit of PlayerData->Team) if the Player is valid; otherwise, -1.</returns>
 int Player::GetTeam() const
 {
 	if (IsValid())
@@ -194,9 +194,9 @@ int Player::GetTeam() const
 }
 
 /// <summary>
-/// Retrieves the yaw angle of the player.
+/// Retrieves the yaw angle of the Player.
 /// </summary>
-/// <returns>The player's yaw angle if the player is valid; otherwise, returns 0.0f.</returns>
+/// <returns>The Player's yaw angle if the Player is valid; otherwise, returns 0.0f.</returns>
 float Player::GetYaw() const
 {
 	if (IsValid())
@@ -205,9 +205,9 @@ float Player::GetYaw() const
 }
 
 /// <summary>
-/// Retrieves the pitch value of the player.
+/// Retrieves the pitch value of the Player.
 /// </summary>
-/// <returns>The player's pitch value if the player is valid; otherwise, returns 0.0f.</returns>
+/// <returns>The Player's pitch value if the Player is valid; otherwise, returns 0.0f.</returns>
 float Player::GetPitch() const
 {
 	if (IsValid())
@@ -216,32 +216,32 @@ float Player::GetPitch() const
 }
 
 /// <summary>
-/// Returns the position of the player's head in 3D space.
+/// Returns the position of the Player's head in 3D space.
 /// </summary>
-/// <returns>A Vec3 representing the player's head position if the player is valid; otherwise, returns a zero vector (0.f, 0.f, 0.f).</returns>
+/// <returns>A Vec3 representing the Player's head position if the Player is valid; otherwise, returns a zero vector (0.f, 0.f, 0.f).</returns>
 Vec3 Player::GetHeadPos() const
 {
 	if (IsValid())
 		return (PlayerData->PositionHead + Vec3(0.f, 0.f, 0.75f));
-	return Vec3{0.f, 0.f, 0.f};
+	return Vec3{ 0.f, 0.f, 0.f };
 }
 
 /// <summary>
-/// Returns the position of the player's feet in 3D space.
+/// Returns the position of the Player's feet in 3D space.
 /// </summary>
-/// <returns>A Vec3 representing the player's feet position if the player is valid; otherwise, a zero vector (0.f, 0.f, 0.f).</returns>
+/// <returns>A Vec3 representing the Player's feet position if the Player is valid; otherwise, a zero vector (0.f, 0.f, 0.f).</returns>
 Vec3 Player::GetFeetPos() const
 {
 	if (IsValid())
 		return PlayerData->PositionFeet;
-	return Vec3{0.f, 0.f, 0.f};
+	return Vec3{ 0.f, 0.f, 0.f };
 }
 
 /// <summary>
-/// Calculates the distance from this player to another player.
+/// Calculates the distance from this Player to another Player.
 /// </summary>
-/// <param name="Other">A reference to the other Player object to which the distance is measured.</param>
-/// <returns>The distance between the head positions of the two players if both are valid; otherwise, returns 0.0f.</returns>
+/// <param name="Other">A reference to the Other Player object to which the distance is measured.</param>
+/// <returns>The distance between the head positions of the two Players if both are valid; otherwise, returns 0.0f.</returns>
 float Player::GetDistanceTo(const Player &Other) const
 {
 	if (IsValid() && Other.IsValid())
@@ -250,9 +250,9 @@ float Player::GetDistanceTo(const Player &Other) const
 }
 
 /// <summary>
-/// Sets the player's health to the specified value.
+/// Sets the Player's health to the specified value.
 /// </summary>
-/// <param name="Value">The new health value to set for the player.</param>
+/// <param name="Value">The new health value to set for the Player.</param>
 void Player::SetHealth(int Value) const
 {
 	if (Address)
@@ -262,9 +262,9 @@ void Player::SetHealth(int Value) const
 }
 
 /// <summary>
-/// Sets the player's armor value in memory.
+/// Sets the Player's armor value in memory.
 /// </summary>
-/// <param name="Value">The new armor value to set for the player.</param>
+/// <param name="Value">The new armor value to set for the Player.</param>
 void Player::SetArmor(int Value) const
 {
 	if (Address)
