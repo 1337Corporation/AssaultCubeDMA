@@ -17,10 +17,10 @@ struct Vec2
 	Vec2() = default;
 	Vec2(float X, float Y) : X(X), Y(Y) { }
 
-    float DistanceTo(const Vec2 &other) const
+    float DistanceTo(const Vec2 &Other) const
 	{
-        float DX = X - other.X;
-        float DY = Y - other.Y;
+        float DX = X - Other.X;
+        float DY = Y - Other.Y;
         return sqrtf(DX * DX + DY * DY);
     }
 };
