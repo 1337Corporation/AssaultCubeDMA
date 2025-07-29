@@ -112,9 +112,6 @@ void DrawESP(const std::vector<Player>& Players)
 
 	for (const auto &Player : Players)
 	{
-		if (Player.IsEnemyFlag)
-		{
-			DrawPlayerBox(DrawList, Player, 3.0f, 1.0f);
-		}
+		DrawPlayerBox(DrawList, Player, 0.0f, 1.0f);
 	}
 }
