@@ -3,6 +3,7 @@
 #include <Memory.h>
 #include "Vectors.hpp"
 #include <iostream>
+#include <vector>
 
 struct WeaponStruct;
 
@@ -57,10 +58,10 @@ class Player
 		Player() = default;
 		Player(uintptr_t PlayerPtr);
 		Player(uintptr_t Offset, bool IsOffset);
-		~Player() { std::cout << "Player has been destroyed" << std::endl; };
+		//~Player() { std::cout << "Player has been destroyed" << std::endl; };
 
-		Player(Player &&other) noexcept;
-		Player &operator=(Player &&other) noexcept;
+		Player(Player &&Other) noexcept;
+		Player &operator=(Player &&Other) noexcept;
 
 		Player(const Player&) = delete;
 		Player &operator=(const Player&) = delete;
@@ -76,7 +77,6 @@ class Player
 		float	BoxHeight 							= 0.f;
 		float	BoxWidth 							= 0.f;
 		float	AimDistance 						= 0.f;
-
 
 		bool	IsValid()							const;
 		bool	IsAlive()							const;
