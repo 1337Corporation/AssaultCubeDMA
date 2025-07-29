@@ -3,35 +3,52 @@
 #include <thread>
 #include <windows.h>
 #include "Player.hpp"
-#include "Globals.h"
+#include "Cheat.hpp"
+#include "Globals.hpp"
+#include "Render.hpp"
+#include "Esp.hpp"
 
 int main()
 {
-    if(!TargetProcess.Init(PROCESS_NAME))
-    {
-        std::cout << "Failed to initialize process" << std::endl;
-        while (1) {}
-    }
+	if (!TargetProcess.Init(PROCESS_NAME))
+	{
+		while (1) {}
+	}
+	HwndGame = FindGameWindow(TargetProcess.GetPidFromName(PROCESS_NAME));
+	if (!HwndGame)
+	{
+		return -1;
+	}
 
-    while (1)
-    {
-        Player player(LocalPlayerOffset, true);
+	ImGuiIO& io = InitOverlay();
+	// === MAIN LOOP ===
+	while (msg.message != WM_QUIT)
+	{
+		HandleWindowMessages(msg);
+		UpdateRenderDimensions();
 
-        if (!player.IsValid())
-        {
-            std::cout << "Invalid player pointer" << std::endl;
-        }
 
-        player.SetHealth(111111);
-        player.SetArmor(2424242);
+		if (!HandleDeviceResetIfNeeded(LastWidth, LastHeight))
+			break;
+		io.DisplaySize = ImVec2((float)ScreenWidth, (float)ScreenHeight);
+		if (IsGameMinimized())
+		{
+			ShowWindow(HwndOverlay, SW_HIDE);
+			continue;
+		}
+		else
+		{
+			ShowWindow(HwndOverlay, SW_SHOW);
+		}
+		Player localPlayer = InitLocalPlayer();
+		auto Players = BuildPlayerList(localPlayer);
 
-        std::cout << player.GetHealth() << std::endl;
-        std::cout << player.GetName() << std::endl;
-		std::cout << player.GetArmor() << std::endl;
+		BeginImGuiFrame(io);
 
-		Sleep(100);
+		DrawESP(Players);
 
-        if (GetKeyState('A'))
-            break;
-    }
+		EndImGuiFrame();
+	}
+	Cleanup();
+	return 0;
 }
