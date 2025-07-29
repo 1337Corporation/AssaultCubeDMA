@@ -97,11 +97,11 @@ static void DrawPlayerBox(ImDrawList *DrawList, const Player &Player, float Roun
 /// </summary>
 /// <param name="DrawList">Pointer to the ImDrawList used for rendering the text.</param>
 /// <param name="Player">Reference to the Player object whose name will be drawn.</param>
-static void DrawPlayerNameAndDistance(ImDrawList* DrawList, const Player &Player)
+static void DrawPlayerDistance(ImDrawList* DrawList, const Player &Player)
 {
 	char buffer[64];
 
-	snprintf(buffer, sizeof(buffer), "%s (%.1fm)", Player.GetName(), Player.Distance);
+	snprintf(buffer, sizeof(buffer), "[%.1fm]", Player.Distance);
 
 	ImVec2 TopLeft = GetBoxTopLeft(Player);
 	ImVec2 BottomRight = GetBoxBottomRight(Player);
