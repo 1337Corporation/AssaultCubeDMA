@@ -1,9 +1,9 @@
 #include "Cheat.hpp"
 
 /// <summary>
-/// Initializes and configures the local player with default armor and health values.
+/// Initializes and configures the local Player with default armor and health values.
 /// </summary>
-/// <returns>A Player object representing the initialized local player, with armor and health set to 42. If the player is not valid, returns the uninitialized Player object.</returns>
+/// <returns>A Player object representing the initialized local Player, with armor and health set to 42. If the Player is not valid, returns the uninitialized Player object.</returns>
 Player InitLocalPlayer()
 {
 	Player LocalPlayer(LocalPlayerOffset, true);
@@ -18,10 +18,10 @@ Player InitLocalPlayer()
 }
 
 /// <summary>
-/// Builds and returns a list of valid, alive Players with screen coordinates and status information, based on data read from the target process.
+/// Builds and returns a list of valid, alive Players with Screen coordinates and status information, based on data read from the target process.
 /// </summary>
-/// <param name="localPlayer">A reference to the local player, used for comparison and status checks.</param>
-/// <returns>A std::vector containing Player objects representing valid, alive Players with updated screen positions and status flags.</returns>
+/// <param name="localPlayer">A reference to the local Player, used for comparison and status checks.</param>
+/// <returns>A std::vector containing Player objects representing valid, alive Players with updated Screen positions and status flags.</returns>
 std::vector<Player> BuildPlayerList(const Player& localPlayer)
 {
 	float ViewMatrix[16];
@@ -75,7 +75,7 @@ std::vector<Player> BuildPlayerList(const Player& localPlayer)
 		Player.IsEnemyFlag = Player.IsEnemy(localPlayer);
 		Player.IsVisibleFlag = Player.IsVisible(CurrentFrame);
 		Player.Distance = Player.GetDistanceTo(localPlayer);
-		Player.ComputePlayerBox();
+		ComputePlayerBox(Player);
 
 		Player.AimDistance = Vec2{ (float)ScreenWidth / 2, (float)ScreenHeight / 2 }.DistanceTo(Player.ScreenHead);
 
