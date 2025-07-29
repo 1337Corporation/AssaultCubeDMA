@@ -1,6 +1,7 @@
 #pragma once
 
 #include <cmath>
+#include <imgui.h>
 
 #ifndef M_PI
 #define M_PI 3.14159265358979323846
@@ -61,3 +62,8 @@ struct Vec3
 		return std::sqrt(DX * DX + DY * DY + DZ * DZ);
 	}
 };
+
+inline ImVec2 ConvertVec2ToImVec2(const Vec2 &Vec)
+{
+    return ImVec2(Vec.X, Vec.Y);
+}
