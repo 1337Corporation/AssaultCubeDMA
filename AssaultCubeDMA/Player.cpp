@@ -172,6 +172,28 @@ int Player::GetArmor() const
 }
 
 /// <summary>
+/// Returns the number of frags (kills) for the player.
+/// </summary>
+/// <returns>The number of frags for the player if the player is valid; otherwise, returns 0.</returns>
+int Player::GetFrags() const
+{
+	if (IsValid())
+		return PlayerData->Frags;
+	return 0;
+}
+
+/// <summary>
+/// Returns the number of deaths for the player.
+/// </summary>
+/// <returns>The number of deaths recorded for the player if the player is valid; otherwise, returns 0.</returns>
+int Player::GetDeaths() const
+{
+	if (IsValid())
+		return PlayerData->Deaths;
+	return 0;
+}
+
+/// <summary>
 /// Retrieves the name of the Player if the Player is valid.
 /// </summary>
 /// <returns>A pointer to the Player's name if the Player is valid; otherwise, nullptr.</returns>

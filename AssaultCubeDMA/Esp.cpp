@@ -224,6 +224,10 @@ static void DrawPlayerHoverPopup(const Player &Player)
 	ImGui::Text("Armor: %d", Player.GetArmor());
 	ImGui::Text("Distance: %.1f m", Player.Distance);
 	ImGui::Text("Team: %d", Player.GetTeam());
+	ImGui::Text("Frags: %d", Player.GetFrags());
+	ImGui::Text("Deaths: %d", Player.GetDeaths());
+	ImGui::Text("KDA: %.2f", Player.GetFrags() + Player.GetDeaths() > 0 ?
+		static_cast<float>(Player.GetFrags()) / (Player.GetDeaths() + Player.GetFrags()) : 0.0f);
 
 	// Visibility status
 	ImGui::TextColored(Player.IsVisibleFlag ? ImVec4(0.0f, 1.0f, 0.0f, 1.0f) : ImVec4(1.0f, 0.0f, 0.0f, 1.0f),

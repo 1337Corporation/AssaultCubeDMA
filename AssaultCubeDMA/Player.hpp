@@ -88,6 +88,8 @@ class Player
 
 		int		GetHealth() 						const;
 		int		GetArmor()							const;
+		int		GetFrags()							const;
+		int 	GetDeaths()							const;
 		char*	GetName() 							const;
 		int		GetTeam()							const;
 		float	GetYaw()							const;
@@ -95,9 +97,4 @@ class Player
 		float	GetPitch()							const;
 		Vec3	GetFeetPos()						const;
 		float	GetDistanceTo(const Player &Other)	const;
-
-		uint32_t	GetAddress() const
-		{
-			return static_cast<uint32_t>(Address);
-		}	
 };
