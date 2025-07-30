@@ -95,4 +95,9 @@ class Player
 		float	GetPitch()							const;
 		Vec3	GetFeetPos()						const;
 		float	GetDistanceTo(const Player &Other)	const;
+
+		uint32_t	GetAddress() const
+		{
+			return static_cast<uint32_t>(Address);
+		}	
 };
