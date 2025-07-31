@@ -8,14 +8,14 @@ Player::Player(uintptr_t PlayerPtr)
 {
 	if (PlayerPtr == 0)
 		return;
-	auto Temp = std::make_unique<PlayerStruct>();
+	auto Temp		= std::make_unique<PlayerStruct>();
 	if (!TargetProcess.Read(PlayerPtr, Temp.get(), sizeof(PlayerStruct)))
 	{
 		return;
 	}
-	PlayerData = Temp.get();
-	ClassStruct = std::move(Temp);
-	Address = PlayerPtr;
+	PlayerData 		= Temp.get();
+	ClassStruct		= std::move(Temp);
+	Address 		= PlayerPtr;
 }
 
 /// <summary>
@@ -27,24 +27,24 @@ Player::Player(uintptr_t Offset, bool IsOffset)
 {
 	if (!IsOffset || Offset == 0)
 		return;
-	uint32_t Ptr32 = TargetProcess.Read<uint32_t>(Offset);
+	uint32_t Ptr32			= TargetProcess.Read<uint32_t>(Offset);
 	if (!Ptr32)
 	{
 		return;
 	}
-	uintptr_t PlayerPtr = static_cast<uintptr_t>(Ptr32);
+	uintptr_t PlayerPtr		= static_cast<uintptr_t>(Ptr32);
 	if (PlayerPtr == 0)
 	{
 		return;
 	}
-	auto Temp = std::make_unique<PlayerStruct>();
+	auto Temp 				= std::make_unique<PlayerStruct>();
 	if (!TargetProcess.Read(PlayerPtr, Temp.get(), sizeof(PlayerStruct)))
 	{
 		return;
 	}
-	PlayerData = Temp.get();
-	ClassStruct = std::move(Temp);
-	Address = PlayerPtr;
+	PlayerData 				= Temp.get();
+	ClassStruct				= std::move(Temp);
+	Address					= PlayerPtr;
 }
 
 /// <summary>
@@ -104,7 +104,9 @@ PlayerStruct *Player::operator->() const
 bool Player::IsValid() const
 {
 	if (PlayerData != nullptr)
+	{
 		return true;
+	}
 	return false;
 }
 
@@ -115,7 +117,9 @@ bool Player::IsValid() const
 bool Player::IsAlive() const
 {
 	if (IsValid() && PlayerData->Health > 0)
+	{
 		return true;
+	}
 	return false;
 }
 
@@ -127,7 +131,9 @@ bool Player::IsAlive() const
 bool Player::IsEnemy(const Player &LocalPlayer) const
 {
 	if (IsValid() && (PlayerData->Team & 1) != (LocalPlayer->Team & 1))
+	{
 		return true;
+	}
 	return false;
 }
 
@@ -139,7 +145,9 @@ bool Player::IsEnemy(const Player &LocalPlayer) const
 bool Player::IsVisible(int CurrentFrame) const
 {
 	if (IsValid() && PlayerData->LastVisibleFrame >= CurrentFrame)
+	{
 		return true;
+	}
 	return false;
 }
 
@@ -150,7 +158,9 @@ bool Player::IsVisible(int CurrentFrame) const
 int Player::GetHealth() const
 {
 	if (IsValid())
+	{
 		return PlayerData->Health;
+	}
 	return 0;
 }
 
@@ -161,7 +171,9 @@ int Player::GetHealth() const
 int Player::GetArmor() const
 {
 	if (IsValid())
+	{
 		return PlayerData->Armor;
+	}
 	return 0;
 }
 
@@ -172,7 +184,9 @@ int Player::GetArmor() const
 int Player::GetFrags() const
 {
 	if (IsValid())
+	{
 		return PlayerData->Frags;
+	}
 	return 0;
 }
 
@@ -183,7 +197,9 @@ int Player::GetFrags() const
 int Player::GetDeaths() const
 {
 	if (IsValid())
+	{
 		return PlayerData->Deaths;
+	}
 	return 0;
 }
 
@@ -194,7 +210,9 @@ int Player::GetDeaths() const
 char *Player::GetName() const
 {
 	if (IsValid())
+	{
 		return PlayerData->Name;
+	}
 	return nullptr;
 }
 
@@ -205,7 +223,9 @@ char *Player::GetName() const
 int Player::GetTeam() const
 {
 	if (IsValid())
+	{
 		return PlayerData->Team & 1; // Assuming Team is a bitmask, return the first bit
+	}
 	return -1;
 }
 
@@ -216,7 +236,9 @@ int Player::GetTeam() const
 float Player::GetYaw() const
 {
 	if (IsValid())
+	{
 		return PlayerData->Yaw;
+	}
 	return 0.f;
 }
 
@@ -227,7 +249,9 @@ float Player::GetYaw() const
 float Player::GetPitch() const
 {
 	if (IsValid())
+	{
 		return PlayerData->Pitch;
+	}
 	return 0.f;
 }
 
@@ -238,7 +262,9 @@ float Player::GetPitch() const
 Vec3 Player::GetHeadPos() const
 {
 	if (IsValid())
+	{
 		return (PlayerData->PositionHead + Vec3(0.f, 0.f, 0.75f));
+	}
 	return Vec3{ 0.f, 0.f, 0.f };
 }
 
@@ -249,7 +275,9 @@ Vec3 Player::GetHeadPos() const
 Vec3 Player::GetFeetPos() const
 {
 	if (IsValid())
+	{
 		return PlayerData->PositionFeet;
+	}
 	return Vec3{ 0.f, 0.f, 0.f };
 }
 
@@ -261,30 +289,8 @@ Vec3 Player::GetFeetPos() const
 float Player::GetDistanceTo(const Player &Other) const
 {
 	if (IsValid() && Other.IsValid())
+	{
 		return GetHeadPos().Distance(Other.GetHeadPos());
+	}
 	return 0.f;
-}
-
-/// <summary>
-/// Sets the Player's health to the specified value.
-/// </summary>
-/// <param name="Value">The new health value to set for the Player.</param>
-void Player::SetHealth(int Value) const
-{
-	if (Address)
-	{
-		TargetProcess.Write<int>(Address + 0xEC, Value);
-	}
-}
-
-/// <summary>
-/// Sets the Player's armor value in memory.
-/// </summary>
-/// <param name="Value">The new armor value to set for the Player.</param>
-void Player::SetArmor(int Value) const
-{
-	if (Address)
-	{
-		TargetProcess.Write<int>(Address + 0xF0, Value);
-	}
 }

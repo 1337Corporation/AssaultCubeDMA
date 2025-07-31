@@ -62,9 +62,6 @@ class Player
 		bool	IsEnemy(const Player &LocalPlayer)	const;
 		bool	IsVisible(int CurrentFrame)			const;
 
-		void 	SetHealth(int Value) 				const;
-		void 	SetArmor(int Value) 				const;
-
 		int		GetHealth() 						const;
 		int		GetArmor()							const;
 		int		GetFrags()							const;
