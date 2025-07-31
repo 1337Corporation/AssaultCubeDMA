@@ -11,9 +11,6 @@ Player InitLocalPlayer()
 	{
 		return LocalPlayer;
 	}
-	LocalPlayer.SetArmor(42);
-	LocalPlayer.SetHealth(42);
-	// Change values related to settings here
 	return LocalPlayer;
 }
 
@@ -29,21 +26,22 @@ std::vector<Player> BuildPlayerList(const Player& localPlayer)
 	{
 		return std::vector<Player>();
 	}
-	std::vector<Player> Players;
 
-	int PlayersCount = TargetProcess.Read<int>(PlayersCountOffset);
-	uintptr_t PlayerListPtr = static_cast<uintptr_t>(TargetProcess.Read<uint32_t>(PlayersListOffset));
+	std::vector<Player>	Players;
+	int 				PlayersCount	= TargetProcess.Read<int>(PlayersCountOffset);
+	uintptr_t			PlayerListPtr	= static_cast<uintptr_t>(TargetProcess.Read<uint32_t>(PlayersListOffset));
+	int					CurrentFrame	= TargetProcess.Read<int>(CurrentFrameOffset);
+
 	if (PlayerListPtr == 0 || PlayersCount <= 0 || PlayersCount > MAX_PLAYERS)
 	{
 		return Players;
 	}
 
-	int CurrentFrame = TargetProcess.Read<int>(CurrentFrameOffset);
-
 	for (int i = 0; i < MAX_PLAYERS; ++i)
 	{
-		uintptr_t EntryAddress = PlayerListPtr + i * sizeof(uint32_t);
-		uintptr_t PlayerPtr = static_cast<uintptr_t>(TargetProcess.Read<uint32_t>(EntryAddress));
+		uintptr_t	EntryAddress	= PlayerListPtr + i * sizeof(uint32_t);
+		uintptr_t	PlayerPtr 		= static_cast<uintptr_t>(TargetProcess.Read<uint32_t>(EntryAddress));
+
 		if (!PlayerPtr)
 		{
 			continue;
@@ -60,8 +58,8 @@ std::vector<Player> BuildPlayerList(const Player& localPlayer)
 			continue;
 		}
 
-		Vec3 HeadPos = Player.GetHeadPos();
-		Vec3 FeetPos = Player.GetFeetPos();
+		Vec3		HeadPos			= Player.GetHeadPos();
+		Vec3 		FeetPos			= Player.GetFeetPos();
 
 		if (!WorldToScreen(HeadPos, Player.ScreenHead, ViewMatrix, ScreenWidth, ScreenHeight))
 		{
@@ -72,9 +70,10 @@ std::vector<Player> BuildPlayerList(const Player& localPlayer)
 			continue;
 		}
 
-		Player.IsEnemyFlag = Player.IsEnemy(localPlayer);
-		Player.IsVisibleFlag = Player.IsVisible(CurrentFrame);
-		Player.Distance = Player.GetDistanceTo(localPlayer);
+		Player.IsEnemyFlag			= Player.IsEnemy(localPlayer);
+		Player.IsVisibleFlag		= Player.IsVisible(CurrentFrame);
+		Player.Distance 			= Player.GetDistanceTo(localPlayer);
+
 		ComputePlayerBox(Player);
 
 		Players.push_back(std::move(Player));
