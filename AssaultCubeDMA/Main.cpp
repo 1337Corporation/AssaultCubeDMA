@@ -7,7 +7,6 @@
 #include "Globals.hpp"
 #include "Render.hpp"
 #include "Esp.hpp"
-#include "Weapon.hpp"
 
 int main()
 {

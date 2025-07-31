@@ -77,8 +77,6 @@ std::vector<Player> BuildPlayerList(const Player& localPlayer)
 		Player.Distance = Player.GetDistanceTo(localPlayer);
 		ComputePlayerBox(Player);
 
-		Player.AimDistance = Vec2{ (float)ScreenWidth / 2, (float)ScreenHeight / 2 }.DistanceTo(Player.ScreenHead);
-
 		Players.push_back(std::move(Player));
 		if ((int)Players.size() >= PlayersCount - 1)
 		{

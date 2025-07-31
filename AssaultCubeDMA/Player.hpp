@@ -5,8 +5,6 @@
 #include <iostream>
 #include <vector>
 
-struct WeaponStruct;
-
 struct PlayerStruct
 {
 	uint32_t		VFTable;								// 0x000	0
@@ -29,23 +27,6 @@ struct PlayerStruct
 	char   			Name[16];								// 0x205	517 -> 533
 	char			Pad6[0x30C - 0x205 - sizeof(char[16])];	// 247
 	int				Team; 									// 0x30C	780 -> 784
-
-	char			Pad7[0x33C - 0x30C - sizeof(int)];
-
-	WeaponStruct	*Knife;									// 0x33C
-	WeaponStruct	*Pistol;								// 0x340
-	WeaponStruct	*Carabine;								// 0x344
-	WeaponStruct	*Shotgun;								// 0x348
-	WeaponStruct	*Subgun;								// 0x34C
-	WeaponStruct	*Sniper;								// 0x350
-	WeaponStruct	*Assault;								// 0x354
-	WeaponStruct	*Grenade;								// 0x358
-	WeaponStruct	*Akimbo;								// 0x35C
-	WeaponStruct	*LastWeapon;							// 0x360
-	WeaponStruct	*CurrentWeapon;							// 0x364
-	WeaponStruct	*Unknown;								// 0x368 This is displaying current weapon but we already having it
-	WeaponStruct	*PrimaryWeapon;							// 0x36C
-	WeaponStruct	*Unknown1;								// 0x370 This is always displaying Assault gun even when playing sniper
 };
 
 class Player
@@ -58,7 +39,6 @@ class Player
 		Player() = default;
 		Player(uintptr_t PlayerPtr);
 		Player(uintptr_t Offset, bool IsOffset);
-		//~Player() { std::cout << "Player has been destroyed" << std::endl; };
 
 		Player(Player &&Other) noexcept;
 		Player &operator=(Player &&Other) noexcept;
@@ -76,7 +56,6 @@ class Player
 		float	Distance 							= 0.f;
 		float	BoxHeight 							= 0.f;
 		float	BoxWidth 							= 0.f;
-		float	AimDistance 						= 0.f;
 
 		bool	IsValid()							const;
 		bool	IsAlive()							const;

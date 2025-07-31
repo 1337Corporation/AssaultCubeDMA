@@ -63,7 +63,6 @@ Player::Player(Player &&Other) noexcept
 	Distance		= Other.Distance;
 	BoxHeight		= Other.BoxHeight;
 	BoxWidth		= Other.BoxWidth;
-	AimDistance		= Other.AimDistance;
 }
 
 /// <summary>
@@ -85,7 +84,6 @@ Player& Player::operator=(Player &&Other) noexcept
 		Distance		= Other.Distance;
 		BoxHeight		= Other.BoxHeight;
 		BoxWidth		= Other.BoxWidth;
-		AimDistance		= Other.AimDistance;
 	}
 	return *this;
 }
