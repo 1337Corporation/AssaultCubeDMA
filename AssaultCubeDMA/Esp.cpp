@@ -1,4 +1,4 @@
-#include "Esp.hpp"
+﻿#include "Esp.hpp"
 
 /// <summary>
 /// Projects a 3D world coordinate to 2D screen space using a transformation matrix.
@@ -69,9 +69,9 @@ static ImU32 GetBoxColor(const Player &Player)
 {
 	if (Player.IsEnemyFlag)
 	{
-		return Player.IsVisibleFlag ? Colors::BoxVisibleEnnemy : Colors::BoxHiddenEnnemy;
+		return Player.IsVisibleFlag ? Colors::U32::Red : Colors::U32::Yellow;
 	}
-	return Colors::BoxFriendly;
+	return Colors::U32::Green;
 }
 
 /// <summary>
@@ -121,25 +121,14 @@ static void DrawPlayerDistance(ImDrawList* DrawList, const Player &Player)
 	float	BoxCenterX 		= (TopLeft.x + BottomRight.x) / 2.0f;
 	ImVec2 	Position 		= ImVec2(BoxCenterX - TextSize.x / 2.0f, TopLeft.y - TextSize.y - 5.0f);
 
-	DrawList->AddText(Position, Text::WhiteTextColor, Buffer);
+	DrawList->AddText(Position, Colors::U32::White, Buffer);
 }
 
-static ImU32	HealthColorSelector(float Health)
-{
-    if (Health > 0.6f)
-	{
-        return Colors::HealthColorGood; // Green
-	}
-    else if (Health > 0.3f)
-	{
-    	return Colors::HealthColorMedium; // Yellow
-	}
-    else
-	{
-    	return Colors::HealthColorBad; // Red
-	}
-}
-
+/// <summary>
+/// Draws the health bar for a player if the player is flagged as an enemy.
+/// </summary>
+/// <param name="DrawList">Pointer to the ImDrawList used for rendering the health bar.</param>
+/// <param name="Player">Reference to the Player object whose health bar will be drawn.</param>
 static void DrawPlayerHealth(ImDrawList *DrawList, const Player &Player)
 {
     if (!DrawList || !Player.IsEnemyFlag)
@@ -154,12 +143,26 @@ static void DrawPlayerHealth(ImDrawList *DrawList, const Player &Player)
     ImVec2 	BarBottomRight 	= ImVec2(TopLeft.x - Sizes::HealthBarOffset, BottomRight.y);
 
     float 	HealthPercent 	= Player.GetHealth() / 100.0f;
+	ImU32	HealthColor		= 0;
+
+	if (HealthPercent > 0.6f)
+	{
+        HealthColor = Colors::U32::Green;
+	}
+    else if (HealthPercent > 0.3f)
+	{
+		HealthColor = Colors::U32::Yellow;
+	}
+    else
+	{
+		HealthColor = Colors::U32::Red;
+	}
 
     float 	FillHeight 		= Player.BoxHeight * HealthPercent;
     ImVec2	FillTopLeft 	= ImVec2(BarTopLeft.x, BarBottomRight.y - FillHeight);
     ImVec2 	FillBottomRight	= BarBottomRight;
 
-    DrawList->AddRectFilled(FillTopLeft, FillBottomRight, HealthColorSelector(HealthPercent));
+    DrawList->AddRectFilled(FillTopLeft, FillBottomRight, HealthColor);
 }
 
 /// <summary>
@@ -178,7 +181,7 @@ static void DrawPlayerSnapline(ImDrawList *DrawList, const Player &Player)
 		(
 			ScreenBottomCenter,
 			PlayerScreenFeet,
-			Colors::SnapLineColor,
+			Colors::U32::White,
 			Sizes::SnapLineThickness
 		);
 	}
@@ -215,43 +218,57 @@ static bool IsCrosshairHoveringPlayer(const Player &Player)
 /// <param name="Player">Reference to the Player object whose information will be displayed.</param>
 static void DrawPlayerHoverPopup(const Player &Player)
 {
-	// Fixed position in top-left area of screen
-	constexpr float PopupX = 50.0f;
-	constexpr float PopupY = 50.0f;
-
-	ImGui::SetNextWindowPos(ImVec2(PopupX, PopupY), ImGuiCond_Always);
+	ImGui::SetNextWindowPos(ImVec2(Positions::PopupX, Positions::PopupY), ImGuiCond_Always);
 	ImGui::SetNextWindowBgAlpha(0.9f);
-	ImGui::SetNextWindowSize(ImVec2(200.0f, 0.0f)); // Fixed width, auto height
+	ImGui::SetNextWindowSize(Sizes::HoverWindowSize); // Fixed width, auto height
 
-	ImGui::Begin("##PlayerInfo", nullptr,
+	ImGui::Begin
+	(
+		"##PlayerInfo",
+		nullptr,
 		ImGuiWindowFlags_NoTitleBar 		|
 		ImGuiWindowFlags_NoResize 			|
 		ImGuiWindowFlags_NoMove				|
 		ImGuiWindowFlags_NoSavedSettings 	|
 		ImGuiWindowFlags_NoFocusOnAppearing |
-		ImGuiWindowFlags_NoNav);
+		ImGuiWindowFlags_NoNav
+	);
 
 	// Player name and basic info
-	ImGui::TextColored(ImVec4(1.0f, 1.0f, 0.0f, 1.0f), "Player: %s", Player.GetName());
+	ImGui::TextColored(Colors::Vec4::Yellow, "Player: %s", Player.GetName());
 	ImGui::Separator();
 
 	// Health and armor with color coding
-	const float healthPercent = Player.GetHealth() / 100.0f;
+	const float		HealthPercent	= Player.GetHealth() / 100.0f;
+	const ImVec4 	HealthColor		= ImVec4
+	(
+		(HealthPercent > 0.6f) 	? Colors::Vec4::Green :
+		(HealthPercent > 0.3f) 	? Colors::Vec4::Yellow :
+		Colors::Vec4::Red
+	);
 
-	const ImVec4 healthColor = (healthPercent > 0.6f) ? ImVec4(0.0f, 1.0f, 0.0f, 1.0f) : (healthPercent > 0.3f) ? ImVec4(1.0f, 1.0f, 0.0f, 1.0f) : ImVec4(1.0f, 0.0f, 0.0f, 1.0f);
+	ImGui::TextColored(HealthColor, "Health: %d/100", Player.GetHealth());
 
-	ImGui::TextColored(healthColor, "Health: %d/100", Player.GetHealth());
 	ImGui::Text("Armor: %d", Player.GetArmor());
 	ImGui::Text("Distance: %.1f m", Player.Distance);
 	ImGui::Text("Team: %d", Player.GetTeam());
 	ImGui::Text("Frags: %d", Player.GetFrags());
 	ImGui::Text("Deaths: %d", Player.GetDeaths());
-	ImGui::Text("KDA: %.2f", Player.GetFrags() + Player.GetDeaths() > 0 ?
-		static_cast<float>(Player.GetFrags()) / (Player.GetDeaths() + Player.GetFrags()) : 0.0f);
 
-	// Visibility status
-	ImGui::TextColored(Player.IsVisibleFlag ? ImVec4(0.0f, 1.0f, 0.0f, 1.0f) : ImVec4(1.0f, 0.0f, 0.0f, 1.0f),
-		"Status: %s", Player.IsVisibleFlag ? "Visible" : "Hidden");
+	ImGui::Text
+	(
+		"KDA: %.2f", Player.GetFrags() + Player.GetDeaths() > 0 ?
+		static_cast<float>((Player.GetFrags()) / (Player.GetDeaths()) +
+		Player.GetFrags()) : 0.0f
+	);
+
+	ImGui::TextColored
+	(
+		Player.IsVisibleFlag ? Colors::Vec4::Green :
+		Colors::Vec4::Red,
+		"Status: %s",
+		Player.IsVisibleFlag ? "Visible" : "Hidden"
+	);
 
 	ImGui::End();
 }
@@ -263,22 +280,30 @@ static void DrawPlayerHoverPopup(const Player &Player)
 void DrawESP(const std::vector<Player> &Players)
 {
 	if (!ImGui::GetCurrentContext())
+	{
 		return;
+	}
 
-	ImDrawList* DrawList = ImGui::GetBackgroundDrawList();
+	const Player	*HoveredPlayer 	= nullptr;
+	ImDrawList 		*DrawList 		= ImGui::GetBackgroundDrawList();
+
 	if (!DrawList)
+	{
 		return;
-
-	const Player* HoveredPlayer = nullptr;
+	}
 
 	for (const auto &Player : Players)
 	{
+		if (!Player.IsValid())
+		{
+			continue;
+		}
+
 		DrawPlayerBox(DrawList, Player);
 		DrawPlayerDistance(DrawList, Player);
 		DrawPlayerSnapline(DrawList, Player);
 		DrawPlayerHealth(DrawList, Player);
 
-		// Check hover only for enemies through walls (not visible)
 		if (Player.IsEnemyFlag && IsCrosshairHoveringPlayer(Player))
 		{
 			HoveredPlayer = &Player;
@@ -286,7 +311,7 @@ void DrawESP(const std::vector<Player> &Players)
 	}
 
 	// Draw popup for hovered player (rendered last to ensure it's on top)
-	if (HoveredPlayer)
+	if (HoveredPlayer && HoveredPlayer->IsValid())
 	{
 		DrawPlayerHoverPopup(*HoveredPlayer);
 	}
