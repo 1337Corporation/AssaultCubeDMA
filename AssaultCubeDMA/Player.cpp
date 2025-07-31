@@ -11,7 +11,6 @@ Player::Player(uintptr_t PlayerPtr)
 	auto Temp = std::make_unique<PlayerStruct>();
 	if (!TargetProcess.Read(PlayerPtr, Temp.get(), sizeof(PlayerStruct)))
 	{
-		std::cout << "Failed to read on PlayerPtr" << std::endl;
 		return;
 	}
 	PlayerData = Temp.get();
@@ -31,19 +30,16 @@ Player::Player(uintptr_t Offset, bool IsOffset)
 	uint32_t Ptr32 = TargetProcess.Read<uint32_t>(Offset);
 	if (!Ptr32)
 	{
-		std::cout << "Failed to read 32 bits pointer !" << std::endl;
 		return;
 	}
 	uintptr_t PlayerPtr = static_cast<uintptr_t>(Ptr32);
 	if (PlayerPtr == 0)
 	{
-		std::cout << "Failed to cast 32 -> 64 ptr" << std::endl;
 		return;
 	}
 	auto Temp = std::make_unique<PlayerStruct>();
 	if (!TargetProcess.Read(PlayerPtr, Temp.get(), sizeof(PlayerStruct)))
 	{
-		std::cout << "No Player ptr";
 		return;
 	}
 	PlayerData = Temp.get();
