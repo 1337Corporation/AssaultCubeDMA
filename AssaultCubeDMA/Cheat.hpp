@@ -4,7 +4,7 @@
 #include "Globals.hpp"
 #include "Esp.hpp"
 
-Player InitLocalPlayer();
-std::vector<Player> BuildPlayerList(const Player& localPlayer);
+Player				InitLocalPlayer();
+std::vector<Player> BuildPlayerList(const Player &localPlayer);
 
 

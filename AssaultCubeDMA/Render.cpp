@@ -71,24 +71,24 @@ ImGuiIO& InitOverlay()
 	CreateDevice();
 
 	ImGui::CreateContext();
-	ImGuiIO& io = ImGui::GetIO();
+	ImGuiIO& Io = ImGui::GetIO();
 	ImGui::StyleColorsDark();
 
 	ImGui_ImplWin32_Init(HwndOverlay);
 	ImGui_ImplDX9_Init(pDevice);
 
-	return io;
+	return Io;
 }
 
 /// <summary>
 /// Initializes a new ImGui frame and updates mouse input state.
 /// </summary>
-/// <param name="io">Reference to the ImGuiIO object used for input and configuration.</param>
-void BeginImGuiFrame(ImGuiIO &io)
+/// <param name="Io">Reference to the ImGuiIO object used for input and configuration.</param>
+void BeginImGuiFrame(ImGuiIO &Io)
 {
 	ImGui_ImplDX9_NewFrame();
 	ImGui_ImplWin32_NewFrame();
-	io.MouseDown[0] = (GetAsyncKeyState(VK_LBUTTON) & 0x8000) != 0;
+	Io.MouseDown[0] = (GetAsyncKeyState(VK_LBUTTON) & 0x8000) != 0;
 	ImGui::NewFrame();
 }
 
