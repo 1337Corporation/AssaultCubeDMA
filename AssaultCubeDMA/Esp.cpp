@@ -57,11 +57,7 @@ static ImVec2 GetBoxTopLeft(const Player &Player)
 /// <returns>An ImVec2 representing the screen coordinates of the bottom-right corner of the player's box.</returns>
 static ImVec2 GetBoxBottomRight(const Player &Player)
 {
-	return ImVec2
-	(
-		(Player.ScreenHead.X + Player.BoxWidth) / 2
-		, Player.ScreenFeet.Y
-	);
+	return ImVec2(Player.ScreenHead.X + Player.BoxWidth / 2, Player.ScreenFeet.Y);
 }
 
 /// <summary>
@@ -114,19 +110,18 @@ static void DrawPlayerBox(ImDrawList *DrawList, const Player &Player)
 /// <param name="Player">Reference to the Player object whose name will be drawn.</param>
 static void DrawPlayerDistance(ImDrawList* DrawList, const Player &Player)
 {
-	char buffer[64];
+	char Buffer[64];
 
-	snprintf(buffer, sizeof(buffer), "[%.1fm]", Player.Distance);
+	snprintf(Buffer, sizeof(Buffer), "[%.1fm]", Player.Distance);
 
-	ImVec2 TopLeft = GetBoxTopLeft(Player);
-	ImVec2 BottomRight = GetBoxBottomRight(Player);
-	ImVec2 TextSize = ImGui::CalcTextSize(buffer);
+	ImVec2 	TopLeft 		= GetBoxTopLeft(Player);
+	ImVec2 	BottomRight 	= GetBoxBottomRight(Player);
+	ImVec2 	TextSize 		= ImGui::CalcTextSize(Buffer);
 
-	float BoxCenterX = (TopLeft.x + BottomRight.x) / 2.0f;
+	float	BoxCenterX 		= (TopLeft.x + BottomRight.x) / 2.0f;
+	ImVec2 	Position 		= ImVec2(BoxCenterX - TextSize.x / 2.0f, TopLeft.y - TextSize.y - 5.0f);
 
-	ImVec2 Position = ImVec2(BoxCenterX - TextSize.x / 2.0f, TopLeft.y - TextSize.y - 5.0f);
-
-	DrawList->AddText(Position, IM_COL32(255, 255, 255, 255), buffer);
+	DrawList->AddText(Position, Text::WhiteTextColor, Buffer);
 }
 
 static void DrawPlayerHealth(ImDrawList *DrawList, const Player &Player)
