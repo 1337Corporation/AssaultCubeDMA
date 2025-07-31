@@ -9,20 +9,23 @@
 /// <param name="Width">The width of the screen or viewport in pixels.</param>
 /// <param name="Height">The height of the screen or viewport in pixels.</param>
 /// <returns>True if the world position is successfully projected onto the screen; false if the point is behind the camera or cannot be projected.</returns>
-bool WorldToScreen(const Vec3& World, Vec2& Screen, float *M, int Width, int Height)
+bool WorldToScreen(const Vec3 &World, Vec2 &Screen, float *M, int Width, int Height)
 {
 	// Matrix is column-major: index as [row + col * 4]
-	float ClipX = World.X * M[0] + World.Y * M[4] + World.Z * M[8] + M[12];
-	float ClipY = World.X * M[1] + World.Y * M[5] + World.Z * M[9] + M[13];
-	float ClipW = World.X * M[3] + World.Y * M[7] + World.Z * M[11] + M[15];
+	float ClipX = World.X * M[0] + World.Y * M[4] + World.Z * M[8] 	+ M[12];
+	float ClipY = World.X * M[1] + World.Y * M[5] + World.Z * M[9] 	+ M[13];
+	float ClipW	= World.X * M[3] + World.Y * M[7] + World.Z * M[11] + M[15];
 
-	if (ClipW < 0.001f) return false;
+	if (ClipW < 0.001f)
+	{
+		return false;
+	}
 
-	float ndcX = ClipX / ClipW;
-	float ndcY = ClipY / ClipW;
+	float ndcX 	= ClipX / ClipW;
+	float ndcY 	= ClipY / ClipW;
 
-	Screen.X = (Width / 2.0f) + (ndcX * Width / 2.0f);
-	Screen.Y = (Height / 2.0f) - (ndcY * Height / 2.0f);
+	Screen.X 	= (Width / 2.0f) + (ndcX * Width / 2.0f);
+	Screen.Y 	= (Height / 2.0f) - (ndcY * Height / 2.0f);
 
 	return true;
 }
@@ -33,9 +36,9 @@ bool WorldToScreen(const Vec3& World, Vec2& Screen, float *M, int Width, int Hei
 /// <param name="Player">Reference to the Player object whose box dimensions will be computed and updated.</param>
 void ComputePlayerBox(Player &Player)
 {
-	float HeightDiff = Player.ScreenHead.Y - Player.ScreenFeet.Y;
-	Player.BoxHeight = abs(HeightDiff);
-	Player.BoxWidth = Player.BoxHeight * 0.6f; // Adjust ratio as needed
+	float  HeightDiff	= Player.ScreenHead.Y - Player.ScreenFeet.Y;
+	Player.BoxHeight	= abs(HeightDiff);
+	Player.BoxWidth		= Player.BoxHeight * 0.6f; // Adjust ratio as needed
 }
 
 /// <summary>
@@ -54,7 +57,11 @@ static ImVec2 GetBoxTopLeft(const Player &Player)
 /// <returns>An ImVec2 representing the screen coordinates of the bottom-right corner of the player's box.</returns>
 static ImVec2 GetBoxBottomRight(const Player &Player)
 {
-	return ImVec2(Player.ScreenHead.X + Player.BoxWidth / 2, Player.ScreenFeet.Y);
+	return ImVec2
+	(
+		(Player.ScreenHead.X + Player.BoxWidth) / 2
+		, Player.ScreenFeet.Y
+	);
 }
 
 /// <summary>
@@ -66,9 +73,9 @@ static ImU32 GetBoxColor(const Player &Player)
 {
 	if (Player.IsEnemyFlag)
 	{
-		return Player.IsVisibleFlag ? IM_COL32(255, 0, 0, 255) : IM_COL32(255, 255, 0, 255);
+		return Player.IsVisibleFlag ? Colors::BoxVisibleEnnemy : Colors::BoxHiddenEnnemy;
 	}
-	return IM_COL32(0, 255, 0, 255);
+	return Colors::BoxFriendly;
 }
 
 /// <summary>
@@ -78,18 +85,26 @@ static ImU32 GetBoxColor(const Player &Player)
 /// <param name="Player">Reference to the Player object for which the box will be drawn.</param>
 /// <param name="Rounding">The corner rounding radius for the box.</param>
 /// <param name="Thickness">The thickness of the box outline.</param>
-static void DrawPlayerBox(ImDrawList *DrawList, const Player &Player, float Rounding, float Thickness)
+static void DrawPlayerBox(ImDrawList *DrawList, const Player &Player)
 {
 	if (!DrawList)
 	{
 		return;
 	}
 
-	ImVec2 TopLeft = GetBoxTopLeft(Player);
-	ImVec2 BottomRight = GetBoxBottomRight(Player);
-	ImU32 Color = GetBoxColor(Player);
+	ImVec2 	TopLeft 		= GetBoxTopLeft(Player);
+	ImVec2 	BottomRight 	= GetBoxBottomRight(Player);
+	ImU32 	Color 			= GetBoxColor(Player);
 
-	DrawList->AddRect(TopLeft, BottomRight, Color, Rounding, 0, Thickness);
+	DrawList->AddRect
+	(
+		TopLeft,
+		BottomRight,
+		Color,
+		Sizes::PlayerBoxRounding,
+		0,
+		Sizes::PlayerBoxThickness
+	);
 }
 
 /// <summary>
@@ -162,9 +177,16 @@ static void DrawPlayerSnapline(ImDrawList *DrawList, const Player &Player)
 {
 	if (Player.IsEnemyFlag)
 	{
-		ImVec2 ScreenBottomCenter = ImVec2(ScreenWidth / 2, ScreenHeight);
-		ImVec2 PlayerScreenFeet = ConvertVec2ToImVec2(Player.ScreenFeet);
-		DrawList->AddLine(ScreenBottomCenter, PlayerScreenFeet, IM_COL32(255, 255, 255, 255), 1.0f);
+		ImVec2 ScreenBottomCenter 	= ImVec2(ScreenWidth / 2, ScreenHeight);
+		ImVec2 PlayerScreenFeet 	= ConvertVec2ToImVec2(Player.ScreenFeet);
+
+		DrawList->AddLine
+		(
+			ScreenBottomCenter,
+			PlayerScreenFeet,
+			Colors::SnapLineColor,
+			Sizes::SnapLineThickness
+		);
 	}
 }
 
@@ -175,17 +197,22 @@ static void DrawPlayerSnapline(ImDrawList *DrawList, const Player &Player)
 /// <returns>True if the crosshair is hovering over the player's box, false otherwise.</returns>
 static bool IsCrosshairHoveringPlayer(const Player &Player)
 {
-	float CrosshairX = ScreenWidth * 0.5f;
-	float CrosshairY = ScreenHeight * 0.5f;
-	constexpr float Padding = 10.0f;
+	float 			CrosshairX 		= ScreenWidth  	* 0.5f;
+	float 			CrosshairY 		= ScreenHeight  * 0.5f;
+	constexpr float Padding 		= 10.0f;
 
-	const float BoxLeft = Player.ScreenHead.X - Player.BoxWidth * 0.5f - Padding;
-	const float BoxRight = Player.ScreenHead.X + Player.BoxWidth * 0.5f + Padding;
-	const float BoxTop = Player.ScreenHead.Y - Padding;
-	const float BoxBottom = Player.ScreenFeet.Y + Padding;
+	const float 	BoxLeft 		= Player.ScreenHead.X - Player.BoxWidth * 0.5f - Padding;
+	const float 	BoxRight 		= Player.ScreenHead.X + Player.BoxWidth * 0.5f + Padding;
+	const float 	BoxTop 			= Player.ScreenHead.Y - Padding;
+	const float 	BoxBottom 		= Player.ScreenFeet.Y + Padding;
 
-	return (CrosshairX >= BoxLeft && CrosshairX <= BoxRight &&
-			CrosshairY >= BoxTop && CrosshairY <= BoxBottom);
+	return
+	(
+		CrosshairX >= BoxLeft 	&&
+		CrosshairX <= BoxRight 	&&
+		CrosshairY >= BoxTop 	&&
+		CrosshairY <= BoxBottom
+	);
 }
 
 /// <summary>
@@ -203,10 +230,10 @@ static void DrawPlayerHoverPopup(const Player &Player)
 	ImGui::SetNextWindowSize(ImVec2(200.0f, 0.0f)); // Fixed width, auto height
 
 	ImGui::Begin("##PlayerInfo", nullptr,
-		ImGuiWindowFlags_NoTitleBar |
-		ImGuiWindowFlags_NoResize |
-		ImGuiWindowFlags_NoMove |
-		ImGuiWindowFlags_NoSavedSettings |
+		ImGuiWindowFlags_NoTitleBar 		|
+		ImGuiWindowFlags_NoResize 			|
+		ImGuiWindowFlags_NoMove				|
+		ImGuiWindowFlags_NoSavedSettings 	|
 		ImGuiWindowFlags_NoFocusOnAppearing |
 		ImGuiWindowFlags_NoNav);
 
@@ -216,9 +243,8 @@ static void DrawPlayerHoverPopup(const Player &Player)
 
 	// Health and armor with color coding
 	const float healthPercent = Player.GetHealth() / 100.0f;
-	const ImVec4 healthColor = (healthPercent > 0.6f) ? ImVec4(0.0f, 1.0f, 0.0f, 1.0f) :
-							   (healthPercent > 0.3f) ? ImVec4(1.0f, 1.0f, 0.0f, 1.0f) :
-							   ImVec4(1.0f, 0.0f, 0.0f, 1.0f);
+
+	const ImVec4 healthColor = (healthPercent > 0.6f) ? ImVec4(0.0f, 1.0f, 0.0f, 1.0f) : (healthPercent > 0.3f) ? ImVec4(1.0f, 1.0f, 0.0f, 1.0f) : ImVec4(1.0f, 0.0f, 0.0f, 1.0f);
 
 	ImGui::TextColored(healthColor, "Health: %d/100", Player.GetHealth());
 	ImGui::Text("Armor: %d", Player.GetArmor());
@@ -253,7 +279,7 @@ void DrawESP(const std::vector<Player> &Players)
 
 	for (const auto &Player : Players)
 	{
-		DrawPlayerBox(DrawList, Player, 0.0f, 1.0f);
+		DrawPlayerBox(DrawList, Player);
 		DrawPlayerDistance(DrawList, Player);
 		DrawPlayerSnapline(DrawList, Player);
 		DrawPlayerHealth(DrawList, Player);
