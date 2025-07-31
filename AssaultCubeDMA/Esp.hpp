@@ -22,8 +22,10 @@ namespace Colors
 	constexpr ImU32 BoxHiddenEnnemy		= IM_COL32(255, 255, 0, 255);
 	constexpr ImU32 BoxFriendly			= IM_COL32(0, 255, 0, 255);
 
-
+	// SnapLine
 	constexpr ImU32 SnapLineColor 		= IM_COL32(255, 255, 255, 255);
+
+	// Player Health
 	constexpr ImU32 HealthColorGood 	= IM_COL32(0, 255, 0, 255);
 	constexpr ImU32 HealthColorMedium	= IM_COL32(255, 255, 0, 255);
 	constexpr ImU32 HealthColorBad		= IM_COL32(255, 0, 0, 255);
@@ -37,4 +39,8 @@ namespace Sizes
 
 	// SnapLine
 	constexpr float SnapLineThickness	= 1.0f;
+
+	// Health Bar
+	constexpr float HealthBarWidth		= 3.0f;
+	constexpr float HealthBarOffset		= 6.0f;
 }

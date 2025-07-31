@@ -124,6 +124,22 @@ static void DrawPlayerDistance(ImDrawList* DrawList, const Player &Player)
 	DrawList->AddText(Position, Text::WhiteTextColor, Buffer);
 }
 
+static ImU32	HealthColorSelector(float Health)
+{
+    if (Health > 0.6f)
+	{
+        return Colors::HealthColorGood; // Green
+	}
+    else if (Health > 0.3f)
+	{
+    	return Colors::HealthColorMedium; // Yellow
+	}
+    else
+	{
+    	return Colors::HealthColorBad; // Red
+	}
+}
+
 static void DrawPlayerHealth(ImDrawList *DrawList, const Player &Player)
 {
     if (!DrawList || !Player.IsEnemyFlag)
@@ -131,36 +147,19 @@ static void DrawPlayerHealth(ImDrawList *DrawList, const Player &Player)
         return;
     }
 
-    ImVec2 TopLeft = GetBoxTopLeft(Player);
-    ImVec2 BottomRight = GetBoxBottomRight(Player);
+    ImVec2 	TopLeft			= GetBoxTopLeft(Player);
+    ImVec2 	BottomRight 	= GetBoxBottomRight(Player);
 
-    float BarWidth = 4.0f;
-    float BarHeight = BottomRight.y - TopLeft.y;
-    float BarOffset = 8.0f;
+    ImVec2 	BarTopLeft 		= ImVec2(TopLeft.x - Sizes::HealthBarOffset - Sizes::HealthBarWidth, TopLeft.y);
+    ImVec2 	BarBottomRight 	= ImVec2(TopLeft.x - Sizes::HealthBarOffset, BottomRight.y);
 
-    ImVec2 BarTopLeft = ImVec2(TopLeft.x - BarOffset - BarWidth, TopLeft.y);
-    ImVec2 BarBottomRight = ImVec2(TopLeft.x - BarOffset, BottomRight.y);
+    float 	HealthPercent 	= Player.GetHealth() / 100.0f;
 
-    DrawList->AddRectFilled(BarTopLeft, BarBottomRight, IM_COL32(0, 0, 0, 150));
+    float 	FillHeight 		= Player.BoxHeight * HealthPercent;
+    ImVec2	FillTopLeft 	= ImVec2(BarTopLeft.x, BarBottomRight.y - FillHeight);
+    ImVec2 	FillBottomRight	= BarBottomRight;
 
-    float HealthPercent = Player.GetHealth() / 100.0f;
-    if (HealthPercent < 0.0f) HealthPercent = 0.0f;
-    if (HealthPercent > 1.0f) HealthPercent = 1.0f;
-
-    float FillHeight = BarHeight * HealthPercent;
-    ImVec2 FillTopLeft = ImVec2(BarTopLeft.x, BarBottomRight.y - FillHeight);
-    ImVec2 FillBottomRight = BarBottomRight;
-
-    ImU32 HealthColor;
-    if (HealthPercent > 0.6f)
-        HealthColor = IM_COL32(0, 255, 0, 255); // Green
-    else if (HealthPercent > 0.3f)
-        HealthColor = IM_COL32(255, 255, 0, 255); // Yellow
-    else
-        HealthColor = IM_COL32(255, 0, 0, 255); // Red
-
-    DrawList->AddRectFilled(FillTopLeft, FillBottomRight, HealthColor);
-    DrawList->AddRect(BarTopLeft, BarBottomRight, IM_COL32(255, 255, 255, 100), 0.0f, 0, 1.0f);
+    DrawList->AddRectFilled(FillTopLeft, FillBottomRight, HealthColorSelector(HealthPercent));
 }
 
 /// <summary>
