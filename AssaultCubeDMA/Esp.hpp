@@ -18,6 +18,7 @@ namespace Colors
 		constexpr ImU32 	Green			 	= IM_COL32(0, 255, 0, 255);
 		constexpr ImU32		Yellow				= IM_COL32(255, 255, 0, 255);
 		constexpr ImU32 	Red					= IM_COL32(255, 0, 0, 255);
+		constexpr ImU32 	Purple				= IM_COL32(128, 0, 128, 255);
 	}
 
 	namespace Vec4
@@ -25,6 +26,7 @@ namespace Colors
 		constexpr ImVec4	Yellow				= ImVec4(1.0f, 1.0f, 0.0f, 1.0f);
 		constexpr ImVec4 	Green				= ImVec4(0.0f, 1.0f, 0.0f, 1.0f);
 		constexpr ImVec4	Red					= ImVec4(1.0f, 0.0f, 0.0f, 1.0f);
+		constexpr ImVec4	Purple				= ImVec4(0.5f, 0.0f, 0.5f, 1.0f);
 	}
 }
 
@@ -48,6 +50,6 @@ namespace Sizes
 namespace Positions
 {
 	// Player Hover Popup (from top left of screen)
-	constexpr float 	PopupX 				= 50.0f;
-	constexpr float 	PopupY 				= 50.0f;
+	constexpr float 	PopupX 				= 150.0f;
+	constexpr float 	PopupY 				= 150.0f;
 }
