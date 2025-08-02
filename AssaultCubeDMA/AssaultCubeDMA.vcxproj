@@ -106,14 +106,14 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>C:\Users\kaveO\Desktop\AssaultCubeDMA\AssaultCubeDMA\DMALibrary\nt;C:\Users\kaveO\Desktop\AssaultCubeDMA\AssaultCubeDMA\DMALibrary;C:\Users\kaveO\Desktop\AssaultCubeDMA\AssaultCubeDMA\DMALibrary\Memory;C:\Users\kaveO\Desktop\AssaultCubeDMA\AssaultCubeDMA\DMALibrary\libs;C:\Users\kaveO\Desktop\AssaultCubeDMA\AssaultCubeDMA\ImGui;C:\Users\kaveO\Desktop\AssaultCubeDMA\AssaultCubeDMA\ImGui\backends;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>C:\Users\kaveO\Desktop\AssaultCubeDMA\AssaultCubeDMA\DMALibrary\nt;C:\Users\kaveO\Desktop\AssaultCubeDMA\AssaultCubeDMA\DMALibrary\Memory;C:\Users\kaveO\Desktop\AssaultCubeDMA\AssaultCubeDMA\DMALibrary\libs;C:\Users\kaveO\Desktop\AssaultCubeDMA\AssaultCubeDMA\DMALibrary;C:\Users\kaveO\Desktop\AssaultCubeDMA\AssaultCubeDMA\ImGui;C:\Users\kaveO\Desktop\AssaultCubeDMA\AssaultCubeDMA\ImGui\backends;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <LanguageStandard>stdcpp20</LanguageStandard>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <AdditionalLibraryDirectories>C:\Users\kaveO\Desktop\AssaultCubeDMA\AssaultCubeDMA\AssaultCubeDMA\x64\Debug;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
-      <AdditionalDependencies>C:\Users\kaveO\Desktop\AssaultCubeDMA\AssaultCubeDMA\x64\Debug\DMALibrary.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>C:\Users\kaveO\Desktop\AssaultCubeDMA\AssaultCubeDMA\DMALibrary\lib\DMALibrary.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
