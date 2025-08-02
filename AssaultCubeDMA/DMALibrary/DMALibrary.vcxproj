@@ -21,32 +21,33 @@
   <PropertyGroup Label="Globals">
     <VCProjectVersion>17.0</VCProjectVersion>
     <Keyword>Win32Proj</Keyword>
-    <ProjectGuid>{648d0741-aa4f-451c-b663-d84a75eb4650}</ProjectGuid>
-    <RootNamespace>AssaultCubeDMA</RootNamespace>
+    <ProjectGuid>{f02f56b1-10cd-4654-b744-93abe6e15ff0}</ProjectGuid>
+    <RootNamespace>DMALibrary</RootNamespace>
     <WindowsTargetPlatformVersion>10.0</WindowsTargetPlatformVersion>
+    <ProjectName>DMALibrary</ProjectName>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
-    <ConfigurationType>Application</ConfigurationType>
+    <ConfigurationType>StaticLibrary</ConfigurationType>
     <UseDebugLibraries>true</UseDebugLibraries>
     <PlatformToolset>v143</PlatformToolset>
     <CharacterSet>Unicode</CharacterSet>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
-    <ConfigurationType>Application</ConfigurationType>
+    <ConfigurationType>StaticLibrary</ConfigurationType>
     <UseDebugLibraries>false</UseDebugLibraries>
     <PlatformToolset>v143</PlatformToolset>
     <WholeProgramOptimization>true</WholeProgramOptimization>
     <CharacterSet>Unicode</CharacterSet>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="Configuration">
-    <ConfigurationType>Application</ConfigurationType>
+    <ConfigurationType>StaticLibrary</ConfigurationType>
     <UseDebugLibraries>true</UseDebugLibraries>
     <PlatformToolset>v143</PlatformToolset>
     <CharacterSet>Unicode</CharacterSet>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="Configuration">
-    <ConfigurationType>Application</ConfigurationType>
+    <ConfigurationType>StaticLibrary</ConfigurationType>
     <UseDebugLibraries>false</UseDebugLibraries>
     <PlatformToolset>v143</PlatformToolset>
     <WholeProgramOptimization>true</WholeProgramOptimization>
@@ -70,19 +71,24 @@
     <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
   </ImportGroup>
   <PropertyGroup Label="UserMacros" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+    <OutDir>$(SolutionDir)lib\</OutDir>
+  </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <OutDir>$(Platform)\$(Configuration)\</OutDir>
-    <IntDir>$(Platform)\$(Configuration)\</IntDir>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
       <WarningLevel>Level3</WarningLevel>
       <SDLCheck>true</SDLCheck>
-      <PreprocessorDefinitions>WIN32;_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>WIN32;_DEBUG;_LIB;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
+      <PrecompiledHeader>Use</PrecompiledHeader>
+      <PrecompiledHeaderFile>pch.h</PrecompiledHeaderFile>
     </ClCompile>
     <Link>
-      <SubSystem>Console</SubSystem>
+      <SubSystem>
+      </SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
     </Link>
   </ItemDefinitionGroup>
@@ -92,11 +98,16 @@
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <SDLCheck>true</SDLCheck>
-      <PreprocessorDefinitions>WIN32;NDEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>WIN32;NDEBUG;_LIB;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
+      <PrecompiledHeader>Use</PrecompiledHeader>
+      <PrecompiledHeaderFile>pch.h</PrecompiledHeaderFile>
     </ClCompile>
     <Link>
-      <SubSystem>Console</SubSystem>
+      <SubSystem>
+      </SubSystem>
+      <EnableCOMDATFolding>true</EnableCOMDATFolding>
+      <OptimizeReferences>true</OptimizeReferences>
       <GenerateDebugInformation>true</GenerateDebugInformation>
     </Link>
   </ItemDefinitionGroup>
@@ -104,16 +115,17 @@
     <ClCompile>
       <WarningLevel>Level3</WarningLevel>
       <SDLCheck>true</SDLCheck>
-      <PreprocessorDefinitions>_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>_DEBUG;_LIB;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>C:\Users\kaveO\Desktop\AssaultCubeDMA\AssaultCubeDMA\DMALibrary\nt;C:\Users\kaveO\Desktop\AssaultCubeDMA\AssaultCubeDMA\DMALibrary;C:\Users\kaveO\Desktop\AssaultCubeDMA\AssaultCubeDMA\DMALibrary\Memory;C:\Users\kaveO\Desktop\AssaultCubeDMA\AssaultCubeDMA\DMALibrary\libs;C:\Users\kaveO\Desktop\AssaultCubeDMA\AssaultCubeDMA\ImGui;C:\Users\kaveO\Desktop\AssaultCubeDMA\AssaultCubeDMA\ImGui\backends;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <PrecompiledHeader>Use</PrecompiledHeader>
+      <PrecompiledHeaderFile>pch.h</PrecompiledHeaderFile>
+      <AdditionalIncludeDirectories>C:\Users\kaveO\Desktop\DMALibrary\libs;C:\Users\kaveO\Desktop\DMALibrary\nt;C:\Users\kaveO\Desktop\DMALibrary;C:\Users\kaveO\Desktop\DMALibrary\Memory;$(ProjectDir)</AdditionalIncludeDirectories>
       <LanguageStandard>stdcpp20</LanguageStandard>
     </ClCompile>
     <Link>
-      <SubSystem>Windows</SubSystem>
+      <SubSystem>
+      </SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalLibraryDirectories>C:\Users\kaveO\Desktop\AssaultCubeDMA\AssaultCubeDMA\AssaultCubeDMA\x64\Debug;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
-      <AdditionalDependencies>C:\Users\kaveO\Desktop\AssaultCubeDMA\AssaultCubeDMA\x64\Debug\DMALibrary.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
@@ -122,62 +134,59 @@
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <SDLCheck>true</SDLCheck>
-      <PreprocessorDefinitions>NDEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>NDEBUG;_LIB;_CRT_SECURE_NO_WARNINGS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>C:\Users\kaveO\Desktop\AssaultCubeDMA\DMALibrary\libs;C:\Users\kaveO\Desktop\AssaultCubeDMA\DMALibrary\nt;C:\Users\kaveO\Desktop\AssaultCubeDMA\DMALibrary;C:\Users\kaveO\Desktop\AssaultCubeDMA\DMALibrary\Memory;C:\Users\kaveO\Desktop\AssaultCubeDMA\AssaultCubeDMA\ImGui\backends;C:\Users\kaveO\Desktop\AssaultCubeDMA\AssaultCubeDMA\ImGui;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <PrecompiledHeader>Use</PrecompiledHeader>
+      <PrecompiledHeaderFile>pch.h</PrecompiledHeaderFile>
+      <LanguageStandard>stdcpp20</LanguageStandard>
+      <AdditionalIncludeDirectories>C:\Users\kaveO\Desktop\AssaultCubeDMA\DMALibrary\libs;C:\Users\kaveO\Desktop\AssaultCubeDMA\DMALibrary\Memory;C:\Users\kaveO\Desktop\AssaultCubeDMA\DMALibrary\nt;C:\Users\kaveO\Desktop\AssaultCubeDMA\DMALibrary;$(SolutionDir);$(ProjectDir);%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <MultiProcessorCompilation>true</MultiProcessorCompilation>
+      <LanguageStandard_C>Default</LanguageStandard_C>
     </ClCompile>
     <Link>
-      <SubSystem>Console</SubSystem>
+      <SubSystem>
+      </SubSystem>
+      <EnableCOMDATFolding>true</EnableCOMDATFolding>
+      <OptimizeReferences>true</OptimizeReferences>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalLibraryDirectories>C:\Users\kaveO\Desktop\AssaultCubeDMA\AssaultCubeDMA\x64\Debug;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
-      <AdditionalDependencies>%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
+    <Lib>
+      <AdditionalDependencies>$(ProjectDir)libs\leechcore.lib;$(ProjectDir)libs\vmm.lib;%(AdditionalDependencies)</AdditionalDependencies>
+    </Lib>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="Cheat.cpp" />
-    <ClCompile Include="DMALibrary\DMALibrary.cpp" />
-    <ClCompile Include="DMALibrary\Memory\InputManager.cpp" />
-    <ClCompile Include="DMALibrary\Memory\Memory.cpp" />
-    <ClCompile Include="DMALibrary\Memory\Registry.cpp" />
-    <ClCompile Include="DMALibrary\Memory\Shellcode.cpp" />
-    <ClCompile Include="DMALibrary\pch.cpp" />
-    <ClCompile Include="Esp.cpp" />
-    <ClCompile Include="Globals.cpp" />
-    <ClCompile Include="ImGui\backends\imgui_impl_dx9.cpp" />
-    <ClCompile Include="ImGui\backends\imgui_impl_win32.cpp" />
-    <ClCompile Include="ImGui\imgui.cpp" />
-    <ClCompile Include="ImGui\imgui_demo.cpp" />
-    <ClCompile Include="ImGui\imgui_draw.cpp" />
-    <ClCompile Include="ImGui\imgui_tables.cpp" />
-    <ClCompile Include="ImGui\imgui_widgets.cpp" />
-    <ClCompile Include="Main.cpp" />
-    <ClCompile Include="Player.cpp" />
-    <ClCompile Include="Render.cpp" />
+    <ClInclude Include="framework.h" />
+    <ClInclude Include="libs\leechcore.h" />
+    <ClInclude Include="libs\vmmdll.h" />
+    <ClInclude Include="Memory\InputManager.h" />
+    <ClInclude Include="Memory\Memory.h" />
+    <ClInclude Include="Memory\Registry.h" />
+    <ClInclude Include="Memory\Shellcode.h" />
+    <ClInclude Include="nt\structs.h" />
+    <ClInclude Include="pch.h" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="Cheat.hpp" />
-    <ClInclude Include="DMALibrary\framework.h" />
-    <ClInclude Include="DMALibrary\libs\leechcore.h" />
-    <ClInclude Include="DMALibrary\libs\vmmdll.h" />
-    <ClInclude Include="DMALibrary\Memory\InputManager.h" />
-    <ClInclude Include="DMALibrary\Memory\Memory.h" />
-    <ClInclude Include="DMALibrary\Memory\Registry.h" />
-    <ClInclude Include="DMALibrary\Memory\Shellcode.h" />
-    <ClInclude Include="DMALibrary\nt\structs.h" />
-    <ClInclude Include="DMALibrary\pch.h" />
-    <ClInclude Include="Esp.hpp" />
-    <ClInclude Include="Globals.hpp" />
-    <ClInclude Include="ImGui\backends\imgui_impl_dx9.h" />
-    <ClInclude Include="ImGui\backends\imgui_impl_win32.h" />
-    <ClInclude Include="ImGui\imconfig.h" />
-    <ClInclude Include="ImGui\imgui.h" />
-    <ClInclude Include="ImGui\imgui_internal.h" />
-    <ClInclude Include="ImGui\imstb_rectpack.h" />
-    <ClInclude Include="ImGui\imstb_textedit.h" />
-    <ClInclude Include="ImGui\imstb_truetype.h" />
-    <ClInclude Include="Player.hpp" />
-    <ClInclude Include="Render.hpp" />
-    <ClInclude Include="Vectors.hpp" />
+    <ClCompile Include="Memory\InputManager.cpp" />
+    <ClCompile Include="Memory\Memory.cpp" />
+    <ClCompile Include="Memory\Registry.cpp" />
+    <ClCompile Include="Memory\Shellcode.cpp" />
+    <ClCompile Include="pch.cpp">
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Create</PrecompiledHeader>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Create</PrecompiledHeader>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Create</PrecompiledHeader>
+    </ClCompile>
+    <ClCompile Include="DMALibrary.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <Library Include="libs\leechcore.lib" />
+    <Library Include="libs\vmm.lib" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include=".gitignore" />
+    <None Include="info.db" />
+    <None Include="libs\info.db" />
+    <None Include="README.md" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
