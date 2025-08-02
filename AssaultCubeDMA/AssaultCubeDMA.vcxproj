@@ -110,7 +110,7 @@
       <LanguageStandard>stdcpp20</LanguageStandard>
     </ClCompile>
     <Link>
-      <SubSystem>Console</SubSystem>
+      <SubSystem>Windows</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <AdditionalLibraryDirectories>C:\Users\kaveO\Desktop\AssaultCubeDMA\AssaultCubeDMA\AssaultCubeDMA\x64\Debug;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
       <AdditionalDependencies>C:\Users\kaveO\Desktop\AssaultCubeDMA\DMALibrary\x64\Debug\DMALibrary.lib;%(AdditionalDependencies)</AdditionalDependencies>
@@ -124,10 +124,13 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>NDEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
+      <AdditionalIncludeDirectories>C:\Users\kaveO\Desktop\AssaultCubeDMA\DMALibrary\libs;C:\Users\kaveO\Desktop\AssaultCubeDMA\DMALibrary\nt;C:\Users\kaveO\Desktop\AssaultCubeDMA\DMALibrary;C:\Users\kaveO\Desktop\AssaultCubeDMA\DMALibrary\Memory;C:\Users\kaveO\Desktop\AssaultCubeDMA\AssaultCubeDMA\ImGui\backends;C:\Users\kaveO\Desktop\AssaultCubeDMA\AssaultCubeDMA\ImGui;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
+      <AdditionalLibraryDirectories>C:\Users\kaveO\Desktop\AssaultCubeDMA\AssaultCubeDMA\lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalDependencies>DMALibrary.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
@@ -162,7 +165,6 @@
     <ClInclude Include="ImGui\imstb_truetype.h" />
     <ClInclude Include="Player.hpp" />
     <ClInclude Include="Render.hpp" />
-    <ClInclude Include="Weapon.hpp" />
     <ClInclude Include="Vectors.hpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

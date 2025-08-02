@@ -62,9 +62,6 @@
     <ClInclude Include="Vectors.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Weapon.hpp">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="Player.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
