@@ -9,7 +9,7 @@
 <h3 align="center">AssaultCube DMA Cheat</h3>
 
   <p align="center">
-    AssaultCubeDMA is a proof-of-concept external cheat for AssaultCube using DMA (Direct Memory Access) techniques.<br>It demonstrates reading and manipulating game memory externally, featuring ESP and other basic functionalities.<br>Intended for educational and research purposes only.
+    AssaultCubeDMA is a proof-of-concept external cheat for AssaultCube using DMA (Direct Memory Access) techniques.It demonstrates reading and manipulating game memory externally, featuring ESP and other basic functionalities.Intended for educational and research purposes only.
     <br />
     <br />
     <a href="https://github.com/1337Corporation/AssaultCubeDMA">View Demo</a>
