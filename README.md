@@ -39,7 +39,7 @@
 
 <br>
 
-> [!WARNING]  
+> [!WARNING]
 > This project requires a Direct Memory Access (DMA) card to operate.
 
 <br>
@@ -89,6 +89,39 @@
    ```sh
    Start AssaultCube and run AssaultCubeDMA.exe
    ```
+
+<p align="right">(<a href="#readme-top">back to top</a>)</p>
+
+<!-- ROADMAP -->
+## Roadmap
+
+1. **Reverse Engineering AssaultCube**
+   - Used IDA Pro and other tools to analyze AssaultCube's memory structure and game logic.
+   - Identified player, entity, and game state addresses.
+
+2. **Researching DMA Techniques**
+   - Studied DMA hardware and external memory access methods.
+   - Selected compatible DMA cards and libraries (e.g., DMALibrary, MemProcFS).
+
+3. **Setting Up the DMA Environment**
+   - Integrated DMALibrary for low-level memory access.
+   - Verified communication between DMA card and target system.
+
+4. **Implementing Memory Reading/Writing**
+   - Developed C++ classes to read/write game memory externally.
+   - Ensured safe and reliable access to game data structures.
+
+5. **Building ESP Features**
+   - Coded basic ESP overlays (player positions, boxes, etc.) using ImGui for rendering.
+   - Linked ESP data to real-time memory reads.
+
+6. **Testing and Debugging**
+   - Ran the cheat alongside AssaultCube, iteratively fixing bugs and improving stability.
+   - Used debug builds and logging for troubleshooting.
+
+7. **Packaging and Documentation**
+   - Created build scripts and release instructions.
+   - Documented setup, usage, and technical details in the README.
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
