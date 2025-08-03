@@ -42,7 +42,24 @@
 > [!WARNING]  
 > This project requires a Direct Memory Access (DMA) card to operate.
 
-### Installation
+<br>
+
+### No Compilation Needed
+
+1. Download from Releases
+   ```sh
+   Download CompiledCheat.zip from the Releases tab of the Repository
+   ```
+2. Extract the .zip
+   ```sh
+   Extract the CompiledCheat.zip archive
+   ```
+3. Enjoy !
+   ```
+   Start AssaultCube and run AssaultCubeDMA.exe
+   ```
+
+### Installation & Compilation
 
 1. Clone the repo
    ```sh
